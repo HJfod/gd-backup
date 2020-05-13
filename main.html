@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script src="scripts/main.js" defer></script>
+<link rel="stylesheet" href="scripts/style.css"/>
+</head>
 <body>
-<p>sdfksdf</p>
+
+<input id="path-input"></input><br>
+<button onclick="getGDPath()">Set / Refresh</button>
+
+<br><br>
+
+<input id="level-input"></input><br>
+<button onclick="getLevel()">Get level</button>
+
+<br><br>
+
+<div class="input-area">
+	<div class="input-box">
+		<p class="input-text">Click or drop a .gmd file here!</p>
+	</div>
+	<input type="file" id="level-import"></input>
+</div>
+<button onclick="importLevel()">Import level</button>
+
 </body>
 </html>

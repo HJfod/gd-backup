@@ -1,0 +1,92 @@
+:root {
+	--c-bg:		#fff;
+	--c-dark:	#bbb;
+	--c-text:	#000;
+	--c-hover:	#ccc;
+	--c-file:	rgba(20,120,20,0.8);
+	--t-size:	13px;
+	--i-size:	3px;
+	--pad:		10px;
+	--font:		Segoe UI Light;
+	--font-2:	Segoe UI;
+	--trans:	0.1s;
+	--click:	3px;
+	--corner:	8px;
+}
+
+body {
+	margin: 0px;
+	padding: var(--pad);
+	background-color: var(--c-bg);
+	overflow: hidden;
+}
+
+input {
+	background-color: var(--c-dark);
+	font-size: var(--t-size);
+	padding: var(--pad);
+	width: calc( 100% - var(--pad) * 2 );
+	border: none;
+	border-radius: var(--corner);
+    transition-duration: var(--trans);
+}
+
+input:hover {
+    background-color: var(--c-hover);
+}
+
+input:focus {
+	outline: none;
+}
+
+button {
+	background-color: var(--c-dark);
+	font-size: var(--t-size);
+	padding: var(--pad);
+	border: none;
+	border-radius: var(--corner);
+    transition-duration: var(--trans);
+}
+
+button:hover {
+    background-color: var(--c-hover);
+}
+
+button:focus {
+    outline: none;
+}
+
+input[type="file"] {
+	opacity: 0;
+	position: absolute;
+}
+
+.input-area {
+	background-color: var(--c-dark);
+	font-size: var(--t-size);
+	padding: var(--pad);
+	border: none;
+	border-radius: var(--corner);
+    transition-duration: var(--trans);
+	display: flex;
+	height: 60px;
+}
+
+.input-area:hover {
+    background-color: var(--c-hover);
+}
+
+.input-box {
+	background-color: rgba(0,0,0,0);
+	border: var(--i-size) dotted var(--c-file);
+	width: 100%;
+	height: calc( 100% - var(--pad) );
+	display: flex;
+	text-align: center;
+}
+
+.input-text {
+	text-align: center;
+	font-family: var(--font-2);
+	color: var(--c-file);
+}
