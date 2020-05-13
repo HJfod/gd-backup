@@ -4,8 +4,10 @@
 	--c-text:	#000;
 	--c-hover:	#ccc;
 	--c-file:	rgba(20,120,20,0.8);
+	--c-yes:	#285;
 	--t-size:	13px;
 	--i-size:	3px;
+	--d-size:	60px;
 	--pad:		10px;
 	--font:		Segoe UI Light;
 	--font-2:	Segoe UI;
@@ -18,7 +20,7 @@ body {
 	margin: 0px;
 	padding: var(--pad);
 	background-color: var(--c-bg);
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 input {
@@ -39,6 +41,10 @@ input:focus {
 	outline: none;
 }
 
+input:disabled {
+	color: var(--c-yes);
+}
+
 button {
 	background-color: var(--c-dark);
 	font-size: var(--t-size);
@@ -57,8 +63,11 @@ button:focus {
 }
 
 input[type="file"] {
+	background-color: #f00;
 	opacity: 0;
 	position: absolute;
+	height: var(--d-size);
+	margin: calc( 0px - var(--pad) );
 }
 
 .input-area {
@@ -69,7 +78,7 @@ input[type="file"] {
 	border-radius: var(--corner);
     transition-duration: var(--trans);
 	display: flex;
-	height: 60px;
+	height: var(--d-size);
 }
 
 .input-area:hover {
@@ -89,4 +98,9 @@ input[type="file"] {
 	text-align: center;
 	font-family: var(--font-2);
 	color: var(--c-file);
+}
+
+.inputted {
+	color: var(--c-text);
+	border: none;
 }

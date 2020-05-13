@@ -23,6 +23,12 @@ function importLevel() {
 	}
 }
 
+function fileDropped() {
+	document.getElementsByClassName("input-text")[0].innerHTML = lvlImpInput.files[0].path.replace(/\\/g,"/");
+	document.getElementsByClassName("input-text")[0].classList.add("inputted");
+	document.getElementsByClassName("input-box")[0].classList.add("inputted");
+}
+
 window.addEventListener("message", event => {
     const message = event.data;
 	
@@ -34,6 +40,9 @@ window.addEventListener("message", event => {
                 break;
 			case "probable-path":
 				pathInput.value = args.path;
+				break;
+			case "gd-path-confirmed":
+				pathInput.disabled = true;
 				break;
         }
     }

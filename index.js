@@ -13,6 +13,7 @@ let gd_path;
 
 let levels = []
 let saveData;
+let ext = "udat";
 
 let dLoop = "";
 dTesting: for (let i = 0; i < 5; i++) {
@@ -24,13 +25,25 @@ dTesting: for (let i = 0; i < 5; i++) {
 	}
 }
 
-let required_dir = ['/levels'];
+let required_dir = ['/levels',`/userdata.${ext}`];
 for (let i in required_dir){
 	let dir = path.join(__dirname + dLoop + required_dir[i]);
-	if (!fs.existsSync(dir)){
-		fs.mkdirSync(dir);
+	try {
+		fs.accessSync(dir)
+	} catch (err) {
+		if (dir.split("/").pop().indexOf(".") != -1){
+			fs.writeFileSync(dir, "");
+		}else{
+			fs.mkdirSync(dir);
+		}
 	}
 	console.log(dir);
+}
+
+let readset = fs.readFileSync(path.join(__dirname,dLoop,`/userdata.${ext}`));
+let settings = {};
+if (readset.length > 1) {
+	settings = JSON.parse(readset);
 }
 
 app.on("ready", () => {
@@ -59,6 +72,11 @@ ipc.on("app", (event, arg) => {
 			let p = (process.env.HOME || process.env.USERPROFILE) + "/AppData/Local/GeometryDash/CCLocalLevels.dat";
 			p = p.replace(/\\/g,"/");
 			w_main.webContents.send("app", `{ "action": "probable-path", "path": "${p}" }`);
+			
+			if (settings.gdpath) {
+				gd_path = settings.gdpath;
+				validateGDPath();
+			}
 			break;
 		case "get-level":
 			getLevel(arg.name);
@@ -87,6 +105,16 @@ function validateGDPath() {
 	}
 	
 	console.log("Save data decoded!");
+	
+	let c = fs.readFileSync(path.join(__dirname,dLoop,"/userdata." + ext), "utf8");
+	let o = {};
+	if (c.length > 1){
+		o = JSON.parse(c);
+	}
+	o.gdpath = gd_path;
+	fs.writeFileSync(path.join(__dirname,dLoop,"/userdata." + ext), JSON.stringify(o));
+	
+	w_main.webContents.send("app", `{ "action": "gd-path-confirmed" }`);
 
 	let levelList = saveData.match(/<k>k_\d+<\/k>.+?<\/d>\n? *<\/d>/gs)
 	levelList.forEach(lvl => {
@@ -99,7 +127,7 @@ function getLevel(name) {
 	let foundLevel = levels.find(x => x.toLowerCase().includes(`<k>k2</k><s>${name}</s>`));
 	if (!foundLevel) return console.log("Could not find level!")
 	else {
-		fs.writeFileSync(path.join(__dirname,`levels/${name}.gmd`), foundLevel.replace(/<k>k_\d+<\/k>/, ""), 'utf8');
+		fs.writeFileSync(path.join(__dirname,dLoop,`levels/${name}.gmd`), foundLevel.replace(/<k>k_\d+<\/k>/, ""), 'utf8');
 		return console.log(`Saved to levels/${name}.gmd!`);
 	}
 }
