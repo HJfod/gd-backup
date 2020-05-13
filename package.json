@@ -1,0 +1,22 @@
+{
+  "name": "gd-backup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HJfod/gd-backup.git"
+  },
+  "author": "¨",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HJfod/gd-backup/issues"
+  },
+  "homepage": "https://github.com/HJfod/gd-backup#readme",
+  "dependencies": {
+    "electron": "^8.2.5"
+  }
+}
