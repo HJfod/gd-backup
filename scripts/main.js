@@ -29,6 +29,16 @@ function fileDropped() {
 	document.getElementsByClassName("input-box")[0].classList.add("inputted");
 }
 
+function tab(to) {
+	let t = document.querySelectorAll("div[data-id]");
+	t.forEach(i => {
+		console.log(t);
+		i.style.display = 'none';
+	});
+	console.log(`div[data-id="${to}"]`);
+	document.querySelector(`div[data-id="${to}"]`).style.display = 'initial';
+}
+
 window.addEventListener("message", event => {
     const message = event.data;
 	
@@ -49,3 +59,4 @@ window.addEventListener("message", event => {
 });
 
 ipcSend({ action: "init" });
+tab("import");

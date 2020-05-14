@@ -6,23 +6,40 @@
 </head>
 <body>
 
-<input id="path-input"></input><br>
-<button onclick="getGDPath()">Set / Refresh</button>
+<main-content id="main">
+	
+	<div data-id="import">
+		<input id="path-input"></input><br>
+		<button onclick="getGDPath()">Set / Refresh</button>
 
-<br><br>
+		<br><br>
 
-<input id="level-input"></input><br>
-<button onclick="getLevel()">Get level</button>
+		<input id="level-input"></input><br>
+		<button onclick="getLevel()">Get level</button>
 
-<br><br>
+		<br><br>
 
-<div class="input-area">
-	<div class="input-box">
-		<p class="input-text">Click or drop a .gmd file here!</p>
+		<div class="input-area">
+			<div class="input-box">
+				<p class="input-text">Click or drop a .gmd file here!</p>
+			</div>
+			<input type="file" id="level-import" onchange="fileDropped()"></input>
+		</div>
+		<button onclick="importLevel()">Import level</button>
 	</div>
-	<input type="file" id="level-import" onchange="fileDropped()"></input>
-</div>
-<button onclick="importLevel()">Import level</button>
+	
+	<div data-id="settings">
+		
+		<input type="checkbox">Dark mode</input>
+		
+	</div>
+
+</main-content>
+
+<footer class="nav-bar">
+	<button class="nav-button" onclick="tab('import')"><img src="resources/import.svg" class="svg"></button>
+	<button class="nav-button" onclick="tab('settings')"><img src="resources/settings.svg" class="svg"></button>
+</footer>
 
 </body>
 </html>

@@ -14,13 +14,14 @@
 	--trans:	0.1s;
 	--click:	3px;
 	--corner:	8px;
+	--n-size:	50px;
 }
 
 body {
 	margin: 0px;
-	padding: var(--pad);
+	padding: 0px;
 	background-color: var(--c-bg);
-	overflow-x: hidden;
+	overflow: hidden;
 }
 
 input {
@@ -103,4 +104,39 @@ input[type="file"] {
 .inputted {
 	color: var(--c-text);
 	border: none;
+}
+
+main-content {
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	height: calc( 100% - var(--n-size) );
+	position: absolute;
+	overflow-y: auto;
+}
+
+.nav-bar {
+	background-color: var(--c-dark);
+	width: 100%;
+	position: absolute;
+	top: calc( 100% - var(--n-size) );
+	left: 0px;
+	height: var(--n-size);
+	display: flex;
+}
+
+.nav-button {
+	background-color: rgba(0,0,0,0);
+	display: flex;
+	flex-grow: 1;
+	border-radius: 0px;
+}
+
+.svg {
+	color: var(--c-text);
+	height: calc( var(--n-size) / 2 );
+	text-align: center;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }

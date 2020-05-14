@@ -6,7 +6,7 @@ const zlib = require("zlib")
 
 // require(path.join(__dirname,"scripts/save.js"));
 
-const dim = { w: 350, h: 400 };
+const dim = { w: 350, h: 450 };
 
 let w_main;
 let gd_path;
