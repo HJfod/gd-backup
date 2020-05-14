@@ -12,7 +12,7 @@ https://github.com/HJfod/gd-backup/releases/latest
 
 ## Planned features:
 
-Additions:
+Additions
 
  * Ability to select export path
 
