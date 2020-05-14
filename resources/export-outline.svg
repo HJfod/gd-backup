@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<svg width="500.00000000000006" height="500.00000000000006" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+
+ <g class="layer">
+  <title>Layer 1</title>
+  <g id="svg_99">
+   <rect fill="#000000" height="290" id="svg_83" stroke="#000000" stroke-width="0" width="40" x="230" y="50"/>
+   <ellipse cx="250" cy="340" fill="#000000" id="svg_84" rx="20" ry="20" stroke="#000000" stroke-width="0"/>
+   <g id="svg_95">
+    <rect fill="#000000" height="150" id="svg_94" stroke="#000000" stroke-width="0" transform="rotate(45, 211.651, 87.1469)" width="40" x="191.650763" y="12.146947"/>
+    <ellipse cx="159.045802" cy="139.76145" fill="#000000" id="svg_93" rx="20" ry="20" stroke="#000000" stroke-width="0"/>
+   </g>
+   <g id="svg_96" transform="rotate(-90, 292.223, 89.833)">
+    <rect fill="#000000" height="150" id="svg_97" stroke="#000000" stroke-width="0" transform="rotate(45, 294.938, 87.1134)" width="40" x="274.938179" y="12.113438"/>
+    <ellipse cx="242.333217" cy="139.727942" fill="#000000" id="svg_98" rx="20" ry="20" stroke="#000000" stroke-width="0"/>
+   </g>
+  </g>
+  <g id="svg_100">
+   <ellipse cx="80" cy="480" fill="#000000" id="svg_69" rx="20" ry="20" stroke="#000000" stroke-width="0"/>
+   <ellipse cx="420" cy="480" fill="#000000" id="svg_70" rx="20" ry="20" stroke="#000000" stroke-width="0"/>
+   <rect fill="#000000" height="40" id="svg_71" stroke="#000000" stroke-width="0" width="340" x="80" y="460"/>
+   <rect fill="#000000" height="230" id="svg_85" stroke="#000000" stroke-width="0" width="40" x="60" y="250"/>
+   <ellipse cx="80" cy="250" fill="#000000" id="svg_86" rx="20" ry="20" stroke="#000000" stroke-width="0"/>
+   <rect fill="#000000" height="40" id="svg_87" stroke="#000000" stroke-width="0" width="70" x="80" y="230"/>
+   <ellipse cx="150" cy="250" fill="#000000" id="svg_88" rx="20" ry="20" stroke="#000000" stroke-width="0"/>
+   <rect fill="#000000" height="230" id="svg_89" stroke="#000000" stroke-width="0" width="40" x="400" y="250"/>
+   <ellipse cx="420" cy="250" fill="#000000" id="svg_90" rx="20" ry="20" stroke="#000000" stroke-width="0"/>
+   <ellipse cx="350" cy="250" fill="#000000" id="svg_91" rx="20" ry="20" stroke="#000000" stroke-width="0"/>
+   <rect fill="#000000" height="40" id="svg_92" stroke="#000000" stroke-width="0" width="70" x="350" y="230"/>
+  </g>
+ </g>
+</svg>

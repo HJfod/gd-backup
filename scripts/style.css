@@ -3,18 +3,23 @@
 	--c-dark:	#bbb;
 	--c-text:	#000;
 	--c-hover:	#ccc;
+	--c-select:	#999;
 	--c-file:	rgba(20,120,20,0.8);
 	--c-yes:	#285;
+	--c-link:	#069;
 	--t-size:	13px;
 	--i-size:	3px;
 	--d-size:	60px;
+	--l-size:	8px;
+	--l-rad:	40px;
+	--n-size:	50px;
 	--pad:		10px;
 	--font:		Segoe UI Light;
 	--font-2:	Segoe UI;
 	--trans:	0.1s;
 	--click:	3px;
 	--corner:	8px;
-	--n-size:	50px;
+	--spin:		.8s;
 }
 
 body {
@@ -22,13 +27,14 @@ body {
 	padding: 0px;
 	background-color: var(--c-bg);
 	overflow: hidden;
+	font-family: var(--font);
 }
 
 input {
 	background-color: var(--c-dark);
 	font-size: var(--t-size);
 	padding: var(--pad);
-	width: calc( 100% - var(--pad) * 2 );
+	width: calc( 100% - var(--pad) * 4 );
 	border: none;
 	border-radius: var(--corner);
     transition-duration: var(--trans);
@@ -79,6 +85,7 @@ input[type="file"] {
 	border-radius: var(--corner);
     transition-duration: var(--trans);
 	display: flex;
+	width: calc( 100% - var(--pad) * 4 );
 	height: var(--d-size);
 }
 
@@ -99,11 +106,34 @@ input[type="file"] {
 	text-align: center;
 	font-family: var(--font-2);
 	color: var(--c-file);
+	margin: auto;
 }
 
 .inputted {
 	color: var(--c-text);
 	border: none;
+}
+
+select {
+	background-color: var(--c-dark);
+	font-size: var(--t-size);
+	padding: var(--pad);
+	width: calc( 100% - var(--pad) * 4 );
+	border: none;
+	border-radius: var(--corner);
+    transition-duration: var(--trans);
+	outline: none;
+}
+
+option {
+	padding: var(--pad);
+	font-size: var(--t-size);
+	font-family: var(--font-2);
+	border-radius: var(--corner);
+}
+
+option:hover {
+    background-color: var(--c-hover);
 }
 
 main-content {
@@ -113,6 +143,11 @@ main-content {
 	height: calc( 100% - var(--n-size) );
 	position: absolute;
 	overflow-y: auto;
+	margin: var(--pad);
+}
+
+.section {
+	width: calc( 100% - var(--pad) * 2 );
 }
 
 .nav-bar {
@@ -132,6 +167,18 @@ main-content {
 	border-radius: 0px;
 }
 
+.nav-text {
+	font-size: var(--t-size);
+	font-family: var(--font-2);
+	text-align: center;
+	margin-top: calc( var(--n-size) / 6 );
+	margin-left: calc( 0px - var(--pad) + (100% / 4) / 2 );
+	transform: translateX(-50%);
+	position: absolute;
+	display: flex;
+	user-select: none;
+}
+
 .svg {
 	color: var(--c-text);
 	height: calc( var(--n-size) / 2 );
@@ -139,4 +186,65 @@ main-content {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: calc( 0px - var(--pad) * 2 );
+}
+
+.tab-selected {
+	background-color: var(--c-select);
+}
+
+.status-full {
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	background-color: rgba(0,0,0,0.7);
+	position: absolute;
+}
+
+.link {
+	cursor: pointer;
+	color: var(--c-link);
+	text-decoration: underline;
+}
+
+.loading-text {
+	position: absolute;
+	top: calc( 50% - var(--l-rad) * 1.7 );
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	text-align: center;
+	color: var(--c-bg);
+	font-size: calc( var(--l-rad) / 2 );
+	user-select: none;
+}
+
+.loader-svg {
+	margin: calc( 0px - ( var(--l-rad) / 2 ) - var(--l-size) );
+	width: var(--l-rad);
+	height: var(--l-rad);
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	display: fixed;
+}
+
+.loader {
+	border: var(--l-size) solid var(--c-dark);
+	border-top: var(--l-size) solid var(--c-yes);
+	border-radius: 50%;
+	margin: calc( 0px - ( var(--l-rad) / 2 ) - var(--l-size) );
+	width: var(--l-rad);
+	height: var(--l-rad);
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	display: fixed;
+	animation: spin var(--spin) linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

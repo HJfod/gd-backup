@@ -8,38 +8,113 @@
 
 <main-content id="main">
 	
-	<div data-id="import">
+	<div data-id="path">
+		
+		<text>CCLocalLevels path:</text>
+		<br><br>
 		<input id="path-input"></input><br>
-		<button onclick="getGDPath()">Set / Refresh</button>
-
-		<br><br>
-
-		<input id="level-input"></input><br>
-		<button onclick="getLevel()">Get level</button>
-
-		<br><br>
-
-		<div class="input-area">
-			<div class="input-box">
-				<p class="input-text">Click or drop a .gmd file here!</p>
-			</div>
-			<input type="file" id="level-import" onchange="fileDropped()"></input>
+		<div id="set-path">
+			<button onclick="getGDPath()">Set</button>
 		</div>
-		<button onclick="importLevel()">Import level</button>
+		<div id="edit-path">
+			<button onclick="changeGDPath()">Change Path</button>
+			<button onclick="getGDPath()">Refresh</button>
+		</div>
+		
+	</div>
+	
+	<div data-id="import">
+		
+		<div id="drop-zone">
+			<div class="input-area">
+				<div class="input-box">
+					<p class="input-text">Click or drop a .gmd file here!</p>
+				</div>
+				<input type="file" id="level-import" onchange="fileDropped()"></input>
+			</div>
+		</div>
+		<div id="level-zone">
+			<button onclick="closeLevel()">Close</button>
+			
+			<br><br>
+			
+			<p id="level-name"></p>
+			
+			<br><br>
+			
+			<button onclick="importLevel()">Import level</button>
+		</div>
+		
+	</div>
+	
+	<div data-id="export">
+		
+		<select size="4" multiple="multiple" id="level-list" onchange="selectLevel()" multiple></select>
+		
+		<br>
+		
+		<text id="level-amount"></text>
+		
+		<br><br>
+		
+		<input oninput="searchList(event)" placeholder="Search levels..."></input><br>
+		
+		<br><br>
+		
+		<button onclick="getLevel()" disabled id="level-get">No level selected</button>
+		
+		<br><br>
+		
+		<button onclick="folder('levels')">Open folder</button>
+		
 	</div>
 	
 	<div data-id="settings">
 		
-		<input type="checkbox">Dark mode</input>
+		<button class="section" onclick="section('Help')">Help</button>
+		<div data-section="Help" hidden>
+			
+			<br>
+			<text>No help functions have been implemented yet, sorry! If you are in need of assistance, contact HJfod on Discord at HJfod#1795.</text>
+			<br>
+			<text>If you find an issue, </text>
+			<text class="link" onclick="openLink('https://github.com/HJfod/gd-backup/issues')">please file a bug report on Github</text>
+			
+			<br><br>
+			
+		</div>
+		
+		<button class="section" onclick="section('About')">About</button>
+		<div data-section="About" hidden>
+			
+			<h3>Developers: </h3>
+			<text> • HJfod</text><br>
+			<text> • GDColon</text><br>
+			<text> • Mercury</text><br>
+			<text> • Simonson</text><br><br>
+			<text class="link" onclick="openLink('https://github.com/HJfod/gd-backup')">Github page</text>
+			<br><br>
+			<h5>Version: Beta v1.0</h5>
+			
+		</div>
 		
 	</div>
 
 </main-content>
 
 <footer class="nav-bar">
-	<button class="nav-button" onclick="tab('import')"><img src="resources/import.svg" class="svg"></button>
-	<button class="nav-button" onclick="tab('settings')"><img src="resources/settings.svg" class="svg"></button>
+	<button class="nav-button" onclick="tab('path')"><img src="resources/folder-outline.svg" class="svg"><p class="nav-text">Path</p></button>
+	<button class="nav-button" onclick="tab('import')" disabled><img src="resources/import-outline.svg" class="svg"><p class="nav-text">Import</p></button>
+	<button class="nav-button" onclick="tab('export')" disabled><img src="resources/export-outline.svg" class="svg"><p class="nav-text">Export</p></button>
+	<button class="nav-button" onclick="tab('settings')"><img src="resources/settings-outline.svg" class="svg"><p class="nav-text">Settings</p></button>
 </footer>
+
+<div class="status-full">
+	<text class="loading-text"></text>
+	<div class="loader" id="l-circle"></div>
+	<img class="loader-svg" src="resources/yes.svg" id="l-yes"></img>
+	<img class="loader-svg" src="resources/no.svg" id="l-no"></img>
+</div>
 
 </body>
 </html>

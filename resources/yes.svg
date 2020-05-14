@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<svg width="500.00000000000006" height="500.00000000000006" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+
+ <g class="layer">
+  <title>Layer 1</title>
+  <g id="svg_247" transform="rotate(45, 300, 240)">
+   <rect fill="#00ff00" height="400" id="svg_239" stroke="#000000" stroke-width="0" width="80" x="260" y="40"/>
+   <ellipse cx="300" cy="40" fill="#00ff00" id="svg_238" rx="40" ry="40" stroke="#000000" stroke-width="0"/>
+   <ellipse cx="300" cy="440" fill="#00ff00" id="svg_236" rx="40" ry="40" stroke="#000000" stroke-width="0"/>
+  </g>
+  <g id="svg_249" transform="rotate(-45, 95, 317.5)">
+   <rect fill="#00ff00" height="145" id="svg_243" stroke="#000000" stroke-width="0" width="80" x="55" y="265"/>
+   <ellipse cx="95" cy="265" fill="#00ff00" id="svg_235" rx="40" ry="40" stroke="#000000" stroke-width="0"/>
+  </g>
+ </g>
+</svg>

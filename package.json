@@ -1,16 +1,18 @@
 {
   "name": "gd-backup",
-  "version": "1.0.0",
+  "productName": "GD Share",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+	"make-win32": "electron-packager . gdshare --overwrite --asar --platform=win32 --arch=ia32 --icon=resources/icon.ico --prune=true --out=release-builds --version-string.CompanyName=HJfod --version-string.FileDescription=CE --version-string.ProductName=\"GD Share\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HJfod/gd-backup.git"
   },
-  "author": "¨",
+  "author": "HJfod",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/HJfod/gd-backup/issues"
@@ -18,5 +20,8 @@
   "homepage": "https://github.com/HJfod/gd-backup#readme",
   "dependencies": {
     "electron": "^8.2.5"
+  },
+  "devDependencies": {
+    "electron-packager": "^14.2.1"
   }
 }
