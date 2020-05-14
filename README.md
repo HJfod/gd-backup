@@ -18,9 +18,13 @@ https://github.com/HJfod/gd-backup/releases/latest
 
  * Ability to make backups of CCLocalLevels and all
 
+ * CCLocalLevels path select open dialog
+
+ * 
+
 ## Issue log:
 
- * Make the level search non-caps-sensitive
+
 
 ## Dependencies:
 
