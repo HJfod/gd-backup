@@ -47,7 +47,7 @@ if (readset.length > 1) {
 }
 
 app.on("ready", () => {
-	w_main = new BrowserWindow({frame: true, icon: path.join(__dirname,"resources/icon.ico"), height: dim.h, width: dim.w, webPreferences: { preload: path.join(__dirname, "scripts/preload.js"), nodeIntegration: false, enableRemoteModule: false, contextIsolation: true } });
+	w_main = new BrowserWindow({frame: true, icon: path.join(__dirname,"resources/icon-env.ico"), height: dim.h, width: dim.w, webPreferences: { preload: path.join(__dirname, "scripts/preload.js"), nodeIntegration: false, enableRemoteModule: false, contextIsolation: true } });
 	
 	w_main.loadFile("main.html");
 	
@@ -60,7 +60,6 @@ app.on("ready", () => {
 
 ipc.on("app", (event, arg) => {
 	arg = JSON.parse(arg);
-	console.log(arg.action);
 	switch (arg.action) {
 		case "return":
 			w_main.webContents.send("app", `{ "action": "return", "text": "This is some text." }`);
@@ -90,7 +89,7 @@ ipc.on("app", (event, arg) => {
 			importLevel(arg.path);
 			break;
 		case "open-folder":
-			require('child_process').exec('start ' + path.join(__dirname + dLoop,arg.folder));
+			require('child_process').exec('start "" "' + path.join(__dirname + dLoop,arg.folder + '"'));
 			break;
 	}
 });
@@ -140,16 +139,18 @@ function validateGDPath() {
 	
 	levels = [];
 	let levelList = saveData.match(/<k>k_\d+<\/k>.+?<\/d>\n? *<\/d>/gs)
-	levelList.forEach(lvl => {
-		levels.push(lvl)
-	});
-	
-	let levelNameList = [];
-	levels.forEach((lvl) => {
-		n = lvl.split(`<k>k2</k><s>`).pop();
-		levelNameList.push(n.substring(0,n.indexOf("<")).replace(/'/g,'"'));
-	});
-	w_main.webContents.send("app", `{ "action": "level-list", "list": "${levelNameList}" }`);
+	if (levelList) {
+		levelList.forEach(lvl => {
+			levels.push(lvl)
+		});
+		
+		let levelNameList = [];
+		levels.forEach((lvl) => {
+			n = lvl.split(`<k>k2</k><s>`).pop();
+			levelNameList.push(n.substring(0,n.indexOf("<")).replace(/'/g,'"'));
+		});
+		w_main.webContents.send("app", `{ "action": "level-list", "list": "${levelNameList}" }`);
+	}
 }
 
 function getLevel(names) {

@@ -123,7 +123,7 @@ function folder(which) {
 function searchList(e) {
 	let a = true;
 	lvlGetInput.childNodes.forEach(i => {
-		if (i.innerHTML.indexOf(e.target.value) === -1){
+		if (i.innerHTML.toLowerCase().trim().indexOf(e.target.value.toLowerCase().trim()) === -1){
 			i.setAttribute("hidden","");
 		}else{
 			i.removeAttribute("hidden");
