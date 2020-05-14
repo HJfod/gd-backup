@@ -12,19 +12,21 @@ https://github.com/HJfod/gd-backup/releases/latest
 
 ## Planned features:
 
+Additions:
+
  * Ability to select export path
 
- * Imported level info
+ * Ability to view level info such as description, length, song, etc.
 
- * Ability to make backups of CCLocalLevels and all
+ * Ability to make backups
 
  * CCLocalLevels path select open dialog
 
- * 
+UI
 
-## Issue log:
+ * Clean up the interface to not look like dog shit
 
-
+ * Proper help dialogs
 
 ## Dependencies:
 
