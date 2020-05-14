@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-	"make-win32": "electron-packager . gdshare --overwrite --asar --platform=win32 --arch=ia32 --icon=resources/icon.ico --prune=true --out=release-builds --version-string.CompanyName=HJfod --version-string.FileDescription=CE --version-string.ProductName=\"GD Share\""
+	"make-win32": "electron-packager . gdshare --overwrite --asar --platform=win32 --arch=ia32 --icon=resources/icon-env.ico --prune=true --out=release-builds --version-string.CompanyName=HJfod --version-string.FileDescription=CE --version-string.ProductName=\"GD Share\""
   },
   "repository": {
     "type": "git",
