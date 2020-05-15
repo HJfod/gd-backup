@@ -40,14 +40,21 @@ window.addEventListener("message", event => {
 				document.querySelector(`button[onclick="tab('export')"]`).removeAttribute("disabled");
 				break;
 			case "loading":
+				if (args.lgt === 'infinite'){
+					loading.querySelector("#l-c").style.display = "initial";
+				}else{
+					loading.querySelector("#l-c").style.display = "none";
+				}
 				if (args.a === "show"){
 					loading.style.display = "initial";
 					loading.querySelector(".loading-text").innerHTML = args.text;
 					loading.querySelector("#l-yes").style.display = "none";
 					loading.querySelector("#l-no").style.display = "none";
+					loading.querySelector("#l-warn").style.display = "none";
 					loading.querySelector("#l-circle").style.display = "initial";
-				}else if (args.a === "error" || "success"){
-					showMsg(args.a,args.lgt,args.text);
+					loading.querySelector("#l-b").style.display = "none";
+				}else if (args.a === "error" || "success" || "warning"){
+					showMsg(args.a,args.lgt,args.text,(args.button ? args.button : false));
 				}else{
 					loading.style.display = "none";
 				}

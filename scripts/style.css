@@ -234,6 +234,18 @@ main-content {
 	display: fixed;
 }
 
+.loading-button {
+	position: absolute;
+	top: calc( 50% - var(--l-rad) * 4 );
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	text-align: center;
+	color: var(--c-bg);
+	font-size: calc( var(--l-rad) / 2 );
+	user-select: none;
+}
+
 .loader {
 	border: var(--l-size) solid var(--c-dark);
 	border-top: var(--l-size) solid var(--c-yes);

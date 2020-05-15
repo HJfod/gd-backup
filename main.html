@@ -104,7 +104,7 @@
 			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCTH5HiONyom4GseT2xbw-TQ')">Kyuuti</text><text style="opacity:.5">     Artist</text><br><br>
 			<text class="link" onclick="openLink('https://github.com/HJfod/gd-backup')">Github page</text>
 			<br><br>
-			<h5>Version: Beta v0.1.1</h5>
+			<h5>Version: Beta v0.1.1   </h5><h5 class="link" onclick="checkUpdate()">Check for updates</h5>
 			
 		</div>
 		
@@ -124,6 +124,9 @@
 	<div class="loader" id="l-circle"></div>
 	<img class="loader-svg" src="resources/yes.svg" id="l-yes"></img>
 	<img class="loader-svg" src="resources/no.svg" id="l-no"></img>
+	<img class="loader-svg" src="resources/warning.svg" id="l-warn"></img>
+	<button class="loader-button" id="l-b"></button>
+	<button class="loader-close" id="l-c" onclick="loading.style.display = 'none'">&#x2573;</button>
 </div>
 
 </body>

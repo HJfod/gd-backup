@@ -96,6 +96,44 @@ ipc.on("app", (event, arg) => {
 			export_path = dialog.showOpenDialogSync({ title: "Select export folder", properties: ["openDirectory"] })[0];
 			export_path = export_path.replace(/\\/g,"/");
 			break;
+		case "check-for-updates":
+			const https = require('https');
+			let o = {
+                hostname: `api.github.com`,
+                path: `/repos/HJfod/gd-backup/releases/latest`,
+                headers: {
+                    'User-Agent': 'request'
+                }
+            }
+			https.get(o, res => {
+				if (res.statusCode !== 200){
+					w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "normal", "text": "${res.statusCode}: Unable to check for updates" }`);
+					return console.log(res.statusCode);
+				}
+				let rawData = '';
+				res.on('data', chunk => rawData += chunk );
+				res.on('end', () => {
+					try {
+						const parsedData = JSON.parse(rawData);
+						let app_v = require('./package.json').version;
+						let new_v = parsedData.tag_name.replace("v","");
+						if (new_v === app_v){
+							w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "You are up to date (v${app_v})" }`);
+							console.log("Up to date!");
+						}else{
+							if (Number(new_v.replace(/\./g,"")) > Number(app_v.replace(/\./g,""))){
+								w_main.webContents.send("app", `{ "action": "loading", "a": "warning", "lgt": "infinite", "text": "New version found (v${new_v})", "button": { "text": "Get update", "action": "openLink('https://github.com/HJfod/gd-backup/releases/latest')" } }`);
+							}else{
+								w_main.webContents.send("app", `{ "action": "loading", "a": "warning", "lgt": "long", "text": "You are using a newer version than last stable release (v${new_v})" }`);
+							}
+							console.log(`Version ${new_v} found, current: ${app_v}!`);
+						}
+					} catch (e) {
+						console.error(e.message);
+					}
+				});
+			});
+			break;
 	}
 });
 

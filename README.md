@@ -26,7 +26,7 @@ UI
 
  * Clean up the interface to not look like dog shit
 
- * Proper help dialogs
+ * Proper help dialogs WIP
 
 ## Dependencies:
 
