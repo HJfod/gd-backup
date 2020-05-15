@@ -8,6 +8,7 @@
 	--c-yes:	#285;					/* from --c-sec */
 	--c-link:	#069;					/* from --c-sec */
 	--c-sec:	#baf;
+	--c-disable:#ccc;					/* from --c-text */
 	--t-size:	13px;
 	--i-size:	3px;
 	--d-size:	60px;
@@ -24,7 +25,7 @@
 }
 
 * {
-    outline: none;  
+    outline: none;
 }
 
 body {
@@ -45,11 +46,12 @@ input {
 	border: none;
 	border-radius: var(--corner);
 	transition-duration: var(--trans);
-	margin-bottom: var(--pad);
 	color: var(--c-text);
+	margin-bottom: calc( var(--pad) / 2 );
+	margin-top: calc( var(--pad) / 2 );
 }
 
-input:hover {
+input:not(:disabled):hover {
     background-color: var(--c-hover);
 }
 
@@ -65,11 +67,16 @@ button {
 	border: none;
 	border-radius: var(--corner);
     transition-duration: var(--trans);
-	margin-bottom: var(--pad);
+	margin-bottom: calc( var(--pad) / 2 );
+	margin-top: calc( var(--pad) / 2 );
 }
 
-button:hover {
+button:not(:disabled):hover {
     background-color: var(--c-hover);
+}
+
+button:disabled {
+	color: var(--c-disable);
 }
 
 input[type="file"] {
@@ -122,6 +129,18 @@ input[type="checkbox"] {
 	border: none;
 }
 
+.small-text {
+	color: var(--c-disable);
+	font-size: calc( var(--t-size) / 1.1 );
+}
+
+.divider {
+	background-color: var(--c-disable);
+	height: 1px;
+	opacity: 0.5;
+	width: calc( 100% - var(--pad) * 2 );
+}
+
 select {
 	background-color: var(--c-dark);
 	font-size: var(--t-size);
@@ -141,8 +160,12 @@ option {
 	color: var(--c-text);
 }
 
-option:hover { 
+option:not(:disabled):hover { 
 	background: var(--c-hover);
+}
+
+option:disabled {
+	color: var(--c-disable);
 }
 
 option:checked {
@@ -182,7 +205,7 @@ main-content {
 	display: flex;
 	flex-grow: 1;
 	border-radius: 0px;
-	margin-bottom: 0px;
+	margin: 0px;
 }
 
 .nav-text {

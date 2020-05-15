@@ -56,12 +56,19 @@ function lighten(hex, lum) {	// thanks sitepoint.com
     var rgb = "#", c, i;
     for (i = 0; i < 3; i++) {
         c = parseInt(hex.substr(i * 2, 2), 16);
-        c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+		c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
         rgb += ("00" + c).substr(c.length);
-    }
+	}
 
     return rgb;
 }
+
+function hexToRgb(hex) {
+	hex = hex.replace("#","");
+	if (hex.length < 4) h = hex.split(""); hex = ""; h.forEach(e => hex += e.repeat(2));
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? `${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)}` : null;
+}  
 
 window.addEventListener("message", event => {
     const message = event.data;

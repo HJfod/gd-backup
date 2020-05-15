@@ -29,15 +29,9 @@ function closeLevel() {
 	document.getElementById("drop-zone").style.display = "initial";
 	document.getElementById("level-zone").style.display = "none";
 	lvlImpInput.value = null;
-	//document.getElementsByClassName("input-text")[0].innerHTML = "Click or drop a .gmd file here!";
-	//document.getElementsByClassName("input-text")[0].classList.remove("inputted");
-	//document.getElementsByClassName("input-box")[0].classList.remove("inputted");
 }
 
 function fileDropped() {
-	//document.getElementsByClassName("input-text")[0].innerHTML = lvlImpInput.files[0].path.replace(/\\/g,"/");
-	//document.getElementsByClassName("input-text")[0].classList.add("inputted");
-	//document.getElementsByClassName("input-box")[0].classList.add("inputted");
 	if (!lvlImpInput.files[0].name.endsWith(level_ext)){
 		showMsg("error", "normal", "You can only import .gmd files.");
 		return;
@@ -96,7 +90,6 @@ function showMsg(type, lgt, txt, button) {
 		setTimeout(() => { loading.style.display = "none"; }, loading_time * 3);
 	}
 }
-
 
 function section(to) {
 	let s = document.querySelector(`div[data-section="${to}"]`);
@@ -174,6 +167,7 @@ function changeTheme(e) {
 		});
 	}
 	let c = themes[e].colors;
+
 	html.style.setProperty(`--c-bg`,c.bg);
 	html.style.setProperty(`--c-sec`,c.sec);
 	html.style.setProperty(`--c-third`,c.third);
@@ -182,6 +176,9 @@ function changeTheme(e) {
 	html.style.setProperty(`--c-dark`,lighten(c.bg,c.lighten));
 	html.style.setProperty(`--c-hover`,lighten(getCSS('--c-dark'),c.lighten));
 	html.style.setProperty(`--c-select`,lighten(getCSS('--c-dark'),c.darken));
+	html.style.setProperty(`--c-disable`,`rgba(${hexToRgb(getCSS("--c-text"))},0.5)`);
+
+	console.log(`rgba(${hexToRgb(getCSS("--c-text"))},0.5)`);
 
 	html.style.setProperty(`--c-link`,c.third);
 	html.style.setProperty(`--c-yes`,c.sec);

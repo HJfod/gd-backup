@@ -21,6 +21,20 @@
 			<button onclick="changeGDPath()">Change Path</button>
 			<button onclick="getGDPath()">Refresh</button>
 		</div>
+
+		<br><br>
+
+		<div class="divider"></div>
+
+		<br>
+
+		<button disabled>Create new backup</button>
+		
+		<br>
+
+		<select size="4" id="backup-select">
+			<option disabled>WIP feature! Not implemented yet :(</option>
+		</select>
 		
 	</div>
 	
@@ -50,15 +64,19 @@
 	
 	<div data-id="export">
 		
+		<text class="small-text">Hold CTRL to select multiple / deselect</text>
+		
+		<br><br>
+
 		<select size="4" multiple="multiple" id="level-list" onchange="selectLevel()" multiple></select>
+		
+		<br><br>
+		
+		<input oninput="searchList(event)" placeholder="Search levels..."></input>
 		
 		<br>
 		
 		<text id="level-amount"></text>
-		
-		<br><br>
-		
-		<input oninput="searchList(event)" placeholder="Search levels..."></input><br>
 		
 		<br><br>
 		
@@ -73,6 +91,8 @@
 		<br><br>
 		
 		<button onclick="folder('levels')">Open levels folder</button>
+
+		<br><br>
 		
 	</div>
 	
@@ -82,6 +102,10 @@
 		<div data-section="Theme" hidden>
 			
 			<br>
+
+			<text>Theme:</text>
+
+			<br><br>
 
 			<select size="4" id="theme-select" onchange="changeTheme(event)"></select>
 			

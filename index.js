@@ -55,7 +55,7 @@ app.on("ready", () => {
 	
 	w_main.loadFile("main.html");
 	
-	// w_main.setMenu(null);
+	w_main.setMenu(null);
 	
 	w_main.on("closed", () => {
 		app.quit();
