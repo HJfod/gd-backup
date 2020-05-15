@@ -1,4 +1,4 @@
-const { BrowserWindow, app, shell } = require("electron");
+const { BrowserWindow, app, shell, dialog } = require("electron");
 const ipc = require("electron").ipcMain;
 const path = require("path");
 const fs = require("fs");
@@ -13,6 +13,7 @@ let gd_path;
 
 let levels = []
 let saveData;
+let export_path;
 let ext = "udat";
 
 let dLoop = "";
@@ -51,7 +52,7 @@ app.on("ready", () => {
 	
 	w_main.loadFile("main.html");
 	
-	w_main.setMenu(null);
+	// w_main.setMenu(null);
 	
 	w_main.on("closed", () => {
 		app.quit();
@@ -90,6 +91,10 @@ ipc.on("app", (event, arg) => {
 			break;
 		case "open-folder":
 			require('child_process').exec('start "" "' + path.join(__dirname + dLoop,arg.folder + '"'));
+			break;
+		case "select-export":
+			export_path = dialog.showOpenDialogSync({ title: "Select export folder", properties: ["openDirectory"] })[0];
+			export_path = export_path.replace(/\\/g,"/");
 			break;
 	}
 });
@@ -167,16 +172,23 @@ function getLevel(names) {
 			return;
 		}
 		else {
-			fs.writeFileSync(path.join(__dirname,dLoop,`levels/${name}.gmd`), foundLevel.replace(/<k>k_\d+<\/k>/, ""), 'utf8');
+			let outputdir = export_path ? `${export_path}/${name}.gmd` : path.join(__dirname,dLoop,`levels/${name}.gmd`);		// export path
+			let n = 0;
+			while (fs.existsSync(outputdir)) {	// check if level with same name exists
+				outputdir = outputdir.substring(0,outputdir.length - name.length - 4 - (n ? n.toString().length : 0)) + name + n + ".gmd";
+				n++;
+				if (n > 20) return w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Too many levels with this name." }`);
+			}
+			fs.writeFileSync(outputdir, foundLevel.replace(/<k>k_\d+<\/k>/, ""), 'utf8');
 			
 			let msg = "";
 			if (names.length > 1){
 				msg = "all to levels"
 			}else{
-				msg = "to levels/" + name + ".gmd";
+				msg = export_path ? `${export_path}/${name}.gmd` : `to levels/${name}.gmd`;
 			}
 			w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "long", "text": "Succesfully exported ${msg}!" }`);
-			console.log(`Saved to levels/${name}.gmd!`);
+			console.log(`Saved to ${msg}!`);
 			return;
 		}
 	});

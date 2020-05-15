@@ -14,7 +14,7 @@ https://github.com/HJfod/gd-backup/releases/latest
 
 Additions
 
- * Ability to select export path
+ * Ability to select export path ✓
 
  * Ability to view level info such as description, length, song, etc.
 

@@ -77,6 +77,10 @@ input[type="file"] {
 	margin: calc( 0px - var(--pad) );
 }
 
+input[type="checkbox"] {
+	width: initial;
+}
+
 .input-area {
 	background-color: var(--c-dark);
 	font-size: var(--t-size);

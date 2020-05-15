@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="scripts/functions.js" defer></script>
 <script src="scripts/main.js" defer></script>
 <link rel="stylesheet" href="scripts/style.css"/>
 </head>
@@ -62,7 +63,13 @@
 		<br><br>
 		
 		<button onclick="getLevel()" disabled id="level-get">No level selected</button>
+
+		<br>
+
+		<input type="checkbox" onchange="toggleButton(event, 'output-path', 'invert')" checked>Export to default path</input>
 		
+		<button onclick="selectExportFolder()" data-toggle="output-path">Select path</button>
+
 		<br><br>
 		
 		<button onclick="folder('levels')">Open levels folder</button>
