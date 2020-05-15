@@ -183,7 +183,7 @@ function getLevel(names) {
 			
 			let msg = "";
 			if (names.length > 1){
-				msg = "all to levels"
+				msg = "all levels"
 			}else{
 				msg = export_path ? `${export_path}/${name}.gmd` : `to levels/${name}.gmd`;
 			}

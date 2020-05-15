@@ -1,0 +1,7 @@
+GD Share lets you export and import your Geometry Dash levels to allow people to privately share them.
+
+First you need to set the path to the CCLocalLevels file. This should be filled automatically so you just need to click "Set". GD Share will now load your levels. Note that Geometry Dash needs to be closed while using GD Share. You can keep GD Share open in the background while creating/editing/deleting levels in Geometry Dash, though you need to close GD and click "Refresh" afterwards.
+
+To export a level to a .gmd file, go to the "Export" tab and find your level in the list. You can also type the name of your level in the field below to find it more easily. Click on it and select "Export (level name)". To find your file, click on "Open levels folder". You can also select multiple levels by holding down the Control key while selecting.
+
+To import a level from a .gmd file into your game, go to the "Import" tab and drag and drop the .gmd file into the field and click "Import level". Alternatively you can click into the field and select your level file that way.
