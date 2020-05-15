@@ -176,8 +176,10 @@ function createDefaultThemes(dir) {
 			colors: {
 				bg: "#fff",
 				text: "#000",
-				sec: "#baf",
-				lighten: -.2
+				sec: "#406751",
+				third: "#a8d",
+				lighten: -.15,
+				darken: -.3
 			}
 		},
 		{
@@ -186,7 +188,9 @@ function createDefaultThemes(dir) {
 				bg: "#11131e",
 				text: "#fff",
 				sec: "#75ffec",
-				lighten: .4
+				third: "#ebc67c",
+				lighten: .4,
+				darken: -.1
 			}
 		}
 	]

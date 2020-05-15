@@ -143,5 +143,9 @@ document.querySelectorAll(".svg").forEach(i => {
 	i.setAttribute("height",getCSS("--n-size") / 2);
 });
 
+document.querySelectorAll("select").forEach(i => {
+	//i.setAttribute("onblur",`event.target.childNodes.forEach(i => i.style.background = "rgba('0,0,0,0')")`);
+});
+
 ipcSend({ action: "init" });
 tab("path");

@@ -176,13 +176,14 @@ function changeTheme(e) {
 	let c = themes[e].colors;
 	html.style.setProperty(`--c-bg`,c.bg);
 	html.style.setProperty(`--c-sec`,c.sec);
+	html.style.setProperty(`--c-third`,c.third);
 	html.style.setProperty(`--c-text`,c.text);
 
 	html.style.setProperty(`--c-dark`,lighten(c.bg,c.lighten));
-	html.style.setProperty(`--c-hover`,lighten(c.bg,c.lighten * 3));
-	html.style.setProperty(`--c-select`,lighten(c.bg,c.lighten * -.5));
+	html.style.setProperty(`--c-hover`,lighten(getCSS('--c-dark'),c.lighten));
+	html.style.setProperty(`--c-select`,lighten(getCSS('--c-dark'),c.darken));
 
-	html.style.setProperty(`--c-link`,c.sec);
+	html.style.setProperty(`--c-link`,c.third);
 	html.style.setProperty(`--c-yes`,c.sec);
 
 	ipcSend({ action: "change-theme", theme: themes[e].name });
