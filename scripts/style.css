@@ -1,12 +1,13 @@
 :root {
 	--c-bg:		#fff;
-	--c-dark:	#bbb;
+	--c-dark:	#bbb;					/* from --c-bg */
 	--c-text:	#000;
-	--c-hover:	#ccc;
-	--c-select:	#999;
-	--c-file:	rgba(20,120,20,0.8);
-	--c-yes:	#285;
-	--c-link:	#069;
+	--c-textl:	#fff;					/* constant */
+	--c-hover:	#ccc;					/* from --c-bg */
+	--c-select:	#999;					/* from --c-bg */
+	--c-yes:	#285;					/* from --c-sec */
+	--c-link:	#069;					/* from --c-sec */
+	--c-sec:	#baf;
 	--t-size:	13px;
 	--i-size:	3px;
 	--d-size:	60px;
@@ -28,6 +29,8 @@ body {
 	background-color: var(--c-bg);
 	overflow: hidden;
 	font-family: var(--font);
+	color: var(--c-text);
+    transition-duration: var(--trans);
 }
 
 input {
@@ -56,6 +59,7 @@ button {
 	background-color: var(--c-dark);
 	font-size: var(--t-size);
 	padding: var(--pad);
+	color: var(--c-text);
 	border: none;
 	border-radius: var(--corner);
     transition-duration: var(--trans);
@@ -99,7 +103,7 @@ input[type="checkbox"] {
 
 .input-box {
 	background-color: rgba(0,0,0,0);
-	border: var(--i-size) dotted var(--c-file);
+	border: var(--i-size) dotted var(--c-yes);
 	width: 100%;
 	height: calc( 100% - var(--pad) );
 	display: flex;
@@ -109,7 +113,7 @@ input[type="checkbox"] {
 .input-text {
 	text-align: center;
 	font-family: var(--font-2);
-	color: var(--c-file);
+	color: var(--c-yes);
 	margin: auto;
 }
 
@@ -134,10 +138,15 @@ option {
 	font-size: var(--t-size);
 	font-family: var(--font-2);
 	border-radius: var(--corner);
+	color: var(--c-text);
 }
 
 option:hover {
     background-color: var(--c-hover);
+}
+
+select:checked {
+	color: #f00;
 }
 
 main-content {
@@ -184,13 +193,16 @@ main-content {
 }
 
 .svg {
-	color: var(--c-text);
+	fill: var(--c-text);
+	stroke: var(--c-text);
 	height: calc( var(--n-size) / 2 );
 	text-align: center;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: calc( 0px - var(--pad) * 2 );
+	pointer-events: none;
+	transition-duration: var(--trans);
 }
 
 .tab-selected {
@@ -219,7 +231,7 @@ main-content {
 	transform: translateX(-50%);
 	width: 100%;
 	text-align: center;
-	color: var(--c-bg);
+	color: var(--c-textl);
 	font-size: calc( var(--l-rad) / 2 );
 	user-select: none;
 }
@@ -234,16 +246,31 @@ main-content {
 	display: fixed;
 }
 
-.loading-button {
+.loader-button {
 	position: absolute;
-	top: calc( 50% - var(--l-rad) * 4 );
+	top: calc( 50% + var(--l-rad) * 1.5 );
 	left: 50%;
 	transform: translateX(-50%);
-	width: 100%;
 	text-align: center;
-	color: var(--c-bg);
-	font-size: calc( var(--l-rad) / 2 );
+	color: var(--c-text);
+	font-size: calc( var(--l-rad) / 3 );
 	user-select: none;
+	border-radius: 0%;
+}
+
+.loader-close {
+	background-color: rgba(0,0,0,0);
+	position: absolute;
+	width: calc( var(--pad) * 4 );
+	height: calc( var(--pad) * 4 );
+	left: calc( 100% - var(--pad) * 4 );
+	color: var(--c-textl);
+	padding: 0px;
+}
+
+.loader-close:hover {
+	background-color: rgba(0,0,0,0);
+	color: rgba(255,255,255,.5);
 }
 
 .loader {
@@ -263,4 +290,26 @@ main-content {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+::-webkit-scrollbar {
+	width: calc(var(--pad) * 2);
+	height: calc(var(--pad) * 2);
+	transition-duration: var(--trans);
+}
+
+::-webkit-scrollbar-track {
+	background: var(--c-dark);
+	transition-duration: var(--trans);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--c-select);
+	transition-duration: var(--trans);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--c-hover);
+	border-radius: 0px;
+	cursor: pointer;
 }

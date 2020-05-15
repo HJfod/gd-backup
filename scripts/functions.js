@@ -162,3 +162,28 @@ function selectExportFolder() {
 function checkUpdate() {
     ipcSend({ action: "check-for-updates" });
 }
+
+function changeTheme(e) {
+	if (e.target){
+		e = e.target.value;
+	}else{
+		themes.forEach((i, ind) => {
+			if (i.name === e){
+				e = ind;
+			}
+		});
+	}
+	let c = themes[e].colors;
+	html.style.setProperty(`--c-bg`,c.bg);
+	html.style.setProperty(`--c-sec`,c.sec);
+	html.style.setProperty(`--c-text`,c.text);
+
+	html.style.setProperty(`--c-dark`,lighten(c.bg,c.lighten));
+	html.style.setProperty(`--c-hover`,lighten(c.bg,c.lighten * 3));
+	html.style.setProperty(`--c-select`,lighten(c.bg,c.lighten * -.5));
+
+	html.style.setProperty(`--c-link`,c.sec);
+	html.style.setProperty(`--c-yes`,c.sec);
+
+	ipcSend({ action: "change-theme", theme: themes[e].name });
+}

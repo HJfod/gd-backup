@@ -15,6 +15,8 @@ let levels = []
 let saveData;
 let export_path;
 let ext = "udat";
+let thext = "gdbt";
+let themeList = [];
 
 let dLoop = "";
 dTesting: for (let i = 0; i < 5; i++) {
@@ -26,7 +28,7 @@ dTesting: for (let i = 0; i < 5; i++) {
 	}
 }
 
-let required_dir = ['/levels',`/userdata.${ext}`];
+let required_dir = ['/levels','/data',`/data/userdata.${ext}`,'/data/themes'];
 for (let i in required_dir){
 	let dir = path.join(__dirname + dLoop + required_dir[i]);
 	try {
@@ -36,12 +38,13 @@ for (let i in required_dir){
 			fs.writeFileSync(dir, "");
 		}else{
 			fs.mkdirSync(dir);
+			if (dir.endsWith("\\themes")) createDefaultThemes(dir);
 		}
 	}
 	console.log(dir);
 }
 
-let readset = fs.readFileSync(path.join(__dirname,dLoop,`/userdata.${ext}`));
+let readset = fs.readFileSync(path.join(__dirname,dLoop,`/data/userdata.${ext}`));
 let settings = {};
 if (readset.length > 1) {
 	settings = JSON.parse(readset);
@@ -73,10 +76,18 @@ ipc.on("app", (event, arg) => {
 			let p = (process.env.HOME || process.env.USERPROFILE) + "/AppData/Local/GeometryDash/CCLocalLevels.dat";
 			p = p.replace(/\\/g,"/");
 			w_main.webContents.send("app", `{ "action": "probable-path", "path": "${p}" }`);
+			w_main.webContents.send("app", `{ "action": "version", "v": "v${require('./package.json').version}" }`);
+
+			fs.readdirSync(path.join(__dirname + dLoop, "data/themes")).filter(i => i.endsWith(thext)).forEach(i => {
+				w_main.webContents.send("app", `{ "action": "add-theme", "cont": ${fs.readFileSync(path.join(__dirname + dLoop, "data/themes", i))} }`);
+			});
 			
 			if (settings.gdpath) {
 				gd_path = settings.gdpath;
 				validateGDPath();
+			}
+			if (settings.theme){
+				w_main.webContents.send("app", `{ "action": "switch-theme", "to": "${settings.theme}" }`);
 			}
 			break;
 		case "open-link":
@@ -95,6 +106,9 @@ ipc.on("app", (event, arg) => {
 		case "select-export":
 			export_path = dialog.showOpenDialogSync({ title: "Select export folder", properties: ["openDirectory"] })[0];
 			export_path = export_path.replace(/\\/g,"/");
+			break;
+		case "change-theme":
+			saveToUserdata("theme",arg.theme);
 			break;
 		case "check-for-updates":
 			const https = require('https');
@@ -144,6 +158,44 @@ function xor(str, key) {
     return res;
 }
 
+function saveToUserdata(key, val) {
+	let c = fs.readFileSync(path.join(__dirname,dLoop,"/data/userdata." + ext), "utf8");
+	let o = {};
+	if (c.length > 1){
+		o = JSON.parse(c);
+	}
+	o[key]= val;
+	console.log(o);
+	fs.writeFileSync(path.join(__dirname,dLoop,"/data/userdata." + ext), JSON.stringify(o));
+}
+
+function createDefaultThemes(dir) {
+	let themes = [
+		{
+			name: "Normal",
+			colors: {
+				bg: "#fff",
+				text: "#000",
+				sec: "#baf",
+				lighten: -.2
+			}
+		},
+		{
+			name: "Dark",
+			colors: {
+				bg: "#11131e",
+				text: "#fff",
+				sec: "#75ffec",
+				lighten: .4
+			}
+		}
+	]
+	for (let i in themes){
+		fs.writeFileSync(`${dir}\\${themes[i].name.toLowerCase()}.${thext}`, JSON.stringify(themes[i]));
+	}
+	console.log("Made default themes");
+}
+
 function validateGDPath() {
 	w_main.webContents.send("app", `{ "action": "loading", "a": "show", "text": "Loading your GD data..." }`);
 	try {
@@ -169,14 +221,8 @@ function validateGDPath() {
 	console.log("Save data decoded!");
 	
 	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Save data loaded!" }`);
-	
-	let c = fs.readFileSync(path.join(__dirname,dLoop,"/userdata." + ext), "utf8");
-	let o = {};
-	if (c.length > 1){
-		o = JSON.parse(c);
-	}
-	o.gdpath = gd_path;
-	fs.writeFileSync(path.join(__dirname,dLoop,"/userdata." + ext), JSON.stringify(o));
+
+	saveToUserdata("gdpath",gd_path);
 	
 	w_main.webContents.send("app", `{ "action": "gd-path-confirmed" }`);
 	

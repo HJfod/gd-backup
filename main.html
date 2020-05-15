@@ -78,6 +78,17 @@
 	
 	<div data-id="settings">
 		
+		<button class="section" onclick="section('Theme')">Display</button>
+		<div data-section="Theme" hidden>
+			
+			<br>
+
+			<select size="4" id="theme-select" onchange="changeTheme(event)"></select>
+			
+			<br><br>
+			
+		</div>
+
 		<button class="section" onclick="section('Help')">Help</button>
 		<div data-section="Help" hidden>
 			
@@ -104,7 +115,7 @@
 			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCTH5HiONyom4GseT2xbw-TQ')">Kyuuti</text><text style="opacity:.5">     Artist</text><br><br>
 			<text class="link" onclick="openLink('https://github.com/HJfod/gd-backup')">Github page</text>
 			<br><br>
-			<h5>Version: Beta v0.1.1   </h5><h5 class="link" onclick="checkUpdate()">Check for updates</h5>
+			<h5 id="version-number">Version: Beta NUMBER-HERE   </h5><h5 class="link" onclick="checkUpdate()">Check for updates</h5>
 			
 		</div>
 		
@@ -113,10 +124,10 @@
 </main-content>
 
 <footer class="nav-bar">
-	<button class="nav-button" onclick="tab('path')"><img src="resources/folder-outline.svg" class="svg"><p class="nav-text">Path</p></button>
-	<button class="nav-button" onclick="tab('import')" disabled><img src="resources/import-outline.svg" class="svg"><p class="nav-text">Import</p></button>
-	<button class="nav-button" onclick="tab('export')" disabled><img src="resources/export-outline.svg" class="svg"><p class="nav-text">Export</p></button>
-	<button class="nav-button" onclick="tab('settings')"><img src="resources/settings-outline.svg" class="svg"><p class="nav-text">Settings</p></button>
+	<button class="nav-button" onclick="tab('path')"><svg class="svg" viewBox="0 0 500 500"><use xlink:href="#folder"/></svg><p class="nav-text">Path</p></button>
+	<button class="nav-button" onclick="tab('import')" disabled><svg class="svg" viewBox="0 0 500 500"><use xlink:href="#import"/></svg><p class="nav-text">Import</p></button>
+	<button class="nav-button" onclick="tab('export')" disabled><svg class="svg" viewBox="0 0 500 500"><use xlink:href="#export"/></svg><p class="nav-text">Export</p></button>
+	<button class="nav-button" onclick="tab('settings')"><svg class="svg" viewBox="0 0 500 500"><use xlink:href="#settings"/></svg><p class="nav-text">Settings</p></button>
 </footer>
 
 <div class="status-full">
@@ -128,6 +139,184 @@
 	<button class="loader-button" id="l-b"></button>
 	<button class="loader-close" id="l-c" onclick="loading.style.display = 'none'">&#x2573;</button>
 </div>
+
+<svg display="none">
+	<g id="folder" preserveAspectRatio="xMidYMid meet">
+		<ellipse cx="20" cy="100" rx="20" ry="20"  stroke-width="0"/>
+		<rect  height="40" stroke-width="0" width="180" x="20" y="80"/>
+		<ellipse cx="20" cy="400" rx="20" ry="20"  stroke-width="0"/>
+		<ellipse cx="480" cy="400" rx="20" ry="20"  stroke-width="0"/>
+		<rect  height="40" stroke-width="0" width="460" x="20" y="380"/>
+		<ellipse cx="480" cy="140" rx="20" ry="20"  stroke-width="0"/>
+		<rect  height="40" stroke-width="0" width="256.299878" x="223.700122" y="120"/>
+		<rect  height="73.122148" stroke-width="0" transform="rotate(-45, 211.901, 119.992)" width="40" x="191.900762" y="83.430543"/>
+		<rect  height="300" stroke-width="0" width="40" y="100"/>
+		<rect  height="260" stroke-width="0" width="40" x="460" y="140"/>
+	</g>
+	<g id="import">
+		<rect height="370" stroke-width="0" transform="rotate(-180, 249, 225)" width="40" x="229" y="40"/>
+		<ellipse cx="249" cy="40" rx="20" ry="20" stroke-width="0" transform="rotate(-180, 249, 40)"/>
+		<g transform="rotate(-180, 292.228, 370.076)">
+			<rect  height="150" stroke-width="0" transform="rotate(45, 294.943, 367.357)" width="40" x="274.942755" y="292.356602"/>
+			<ellipse cx="242.337794" cy="419.971106" rx="20" ry="20" stroke-width="0"/>
+		</g>
+		<g transform="rotate(-270, 208.941, 370.11)">
+		<rect height="150" id="svg_97" stroke-width="0" transform="rotate(45, 211.656, 367.391)" width="40" x="191.655998" y="292.390553"/>
+		<ellipse cx="159.051037" cy="420.005057" rx="20" ry="20" stroke-width="0"/>
+		</g>
+		<g>
+		<ellipse cx="80" cy="480" rx="20" ry="20" stroke-width="0"/>
+		<ellipse cx="420" cy="480" rx="20" ry="20" stroke-width="0"/>
+		<rect  height="40" stroke-width="0" width="340" x="80" y="460"/>
+		<rect  height="230" stroke-width="0" width="40" x="60" y="250"/>
+		<ellipse cx="80" cy="250" rx="20" ry="20" stroke-width="0"/>
+		<rect  height="40" stroke-width="0" width="70" x="80" y="230"/>
+		<ellipse cx="150" cy="250" rx="20" ry="20" stroke-width="0"/>
+		<rect  height="230" stroke-width="0" width="40" x="400" y="250"/>
+		<ellipse cx="420" cy="250" rx="20" ry="20"  stroke-width="0"/>
+		<ellipse cx="350" cy="250" rx="20" ry="20" stroke-width="0"/>
+		<rect  height="40" stroke-width="0" width="70" x="350" y="230"/>
+		</g>
+	</g>
+	<g id="export">
+			<g>
+				<rect height="290"stroke-width="0" width="40" x="230" y="50"/>
+				<ellipse cx="250" cy="340" rx="20" ry="20" stroke-width="0"/>
+				<g>
+					<rect  height="150"stroke-width="0" transform="rotate(45, 211.651, 87.1469)" width="40" x="191.650763" y="12.146947"/>
+					<ellipse cx="159.045802" cy="139.76145" rx="20" ry="20" stroke-width="0"/>
+				</g>
+				<g transform="rotate(-90, 292.223, 89.833)">
+					<rect height="150"stroke-width="0" transform="rotate(45, 294.938, 87.1134)" width="40" x="274.938179" y="12.113438"/>
+					<ellipse cx="242.333217" cy="139.727942" rx="20" ry="20" stroke-width="0"/>
+				</g>
+			</g>
+		<g>
+			<ellipse cx="80" cy="480" rx="20" ry="20" stroke-width="0"/>
+			<ellipse cx="420" cy="480" rx="20" ry="20" stroke-width="0"/>
+			<rect height="40" stroke-width="0" width="340" x="80" y="460"/>
+			<rect height="230" stroke-width="0" width="40" x="60" y="250"/>
+			<ellipse cx="80" cy="250" rx="20" ry="20" stroke-width="0"/>
+			<rect height="40" stroke-width="0" width="70" x="80" y="230"/>
+			<ellipse cx="150" cy="250" rx="20" ry="20" stroke-width="0"/>
+			<rect height="230" stroke-width="0" width="40" x="400" y="250"/>
+			<ellipse cx="420" cy="250" rx="20" ry="20" stroke-width="0"/>
+			<ellipse cx="350" cy="250" rx="20" ry="20" stroke-width="0"/>
+			<rect height="40"stroke-width="0" width="70" x="350" y="230"/>
+		</g>
+	</g>
+	<g id="settings">
+		<g>
+		 <g>
+		<rect height="110" stroke-width="0" width="40" x="0" y="195"/>
+		<g transform="rotate(10, 45, 310)">
+		 <rect height="40" stroke-width="0" width="70" x="20" y="290"/>
+		 <ellipse cx="20" cy="310" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		<g transform="rotate(-10, 45, 190)">
+		 <rect height="40" stroke-width="0" width="70" x="20" y="170"/>
+		 <ellipse cx="20" cy="190" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		 </g>
+		 <g transform="rotate(-180, 455, 249.928)">
+		<rect height="110" stroke-width="0" width="40" x="408.605347" y="194.927769"/>
+		<g transform="rotate(10, 453.605, 309.928)">
+		 <rect height="40" stroke-width="0" width="70" x="428.605347" y="289.927769"/>
+		 <ellipse cx="428.605347" cy="309.927769" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		<g transform="rotate(-10, 453.605, 189.928)">
+		 <rect height="40" stroke-width="0" width="70" x="428.605347" y="169.927769"/>
+		 <ellipse cx="428.605347" cy="189.927769" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		 </g>
+		</g>
+		<g transform="rotate(90, 250, 249.928)">
+		 <g >
+		<rect height="110" stroke-width="0" width="40" x="-0.697327" y="194.96368"/>
+		<g transform="rotate(10, 44.3027, 309.964)">
+		 <rect height="40" stroke-width="0" width="70" x="19.302673" y="289.96368"/>
+		 <ellipse cx="19.302673" cy="309.96368" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		<g transform="rotate(-10, 44.3027, 189.964)">
+		 <rect height="40" stroke-width="0" width="70" x="19.302673" y="169.96368"/>
+		 <ellipse cx="19.302673" cy="189.96368" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		 </g>
+		 <g transform="rotate(-180, 454.303, 249.892)">
+		<rect height="110" stroke-width="0" width="40" x="407.90802" y="194.891449"/>
+		<g transform="rotate(10, 452.908, 309.892)">
+		 <rect height="40" stroke-width="0" width="70" x="427.90802" y="289.891449"/>
+		 <ellipse cx="427.90802" cy="309.891449" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		<g transform="rotate(-10, 452.908, 189.892)">
+		 <rect height="40" stroke-width="0" width="70" x="427.90802" y="169.891449"/>
+		 <ellipse cx="427.90802" cy="189.891449" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		 </g>
+		</g>
+		<g transform="rotate(45, 250, 249.928)">
+		 <g >
+		<rect height="110" stroke-width="0" width="40" x="-0.697327" y="194.96368"/>
+		<g transform="rotate(10, 44.3027, 309.964)">
+		 <rect height="40" stroke-width="0" width="70" x="19.302673" y="289.96368"/>
+		 <ellipse cx="19.302673" cy="309.96368" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		<g transform="rotate(-10, 44.3027, 189.964)">
+		 <rect height="40" stroke-width="0" width="70" x="19.302673" y="169.96368"/>
+		 <ellipse cx="19.302673" cy="189.96368" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		 </g>
+		 <g transform="rotate(-180, 454.303, 249.892)">
+		<rect height="110" stroke-width="0" width="40" x="407.90802" y="194.891449"/>
+		<g transform="rotate(10, 452.908, 309.892)">
+		 <rect height="40" stroke-width="0" width="70" x="427.90802" y="289.891449"/>
+		 <ellipse cx="427.90802" cy="309.891449" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		<g transform="rotate(-10, 452.908, 189.892)">
+		 <rect height="40" stroke-width="0" width="70" x="427.90802" y="169.891449"/>
+		 <ellipse cx="427.90802" cy="189.891449" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		 </g>
+		</g>
+		<g transform="rotate(135, 250, 249.928)">
+		 <g >
+		<rect height="110" stroke-width="0" width="40" x="-0.697497" y="194.963133"/>
+		<g transform="rotate(10, 44.3025, 309.963)">
+		 <rect height="40" stroke-width="0" width="70" x="19.302503" y="289.963133"/>
+		 <ellipse cx="19.302503" cy="309.963133" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		<g transform="rotate(-10, 44.3025, 189.963)">
+		 <rect height="40" stroke-width="0" width="70" x="19.302503" y="169.963133"/>
+		 <ellipse cx="19.302503" cy="189.963133" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		 </g>
+		 <g transform="rotate(-180, 454.303, 249.891)">
+		<rect height="110" stroke-width="0" width="40" x="407.90785" y="194.890902"/>
+		<g transform="rotate(10, 452.908, 309.891)">
+		 <rect height="40" stroke-width="0" width="70" x="427.90785" y="289.890902"/>
+		 <ellipse cx="427.90785" cy="309.890902" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		<g transform="rotate(-10, 452.908, 189.891)">
+		 <rect height="40" stroke-width="0" width="70" x="427.90785" y="169.890902"/>
+		 <ellipse cx="427.90785" cy="189.890902" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		 </g>
+		</g>
+		<g >
+		 <ellipse cx="182.682801" cy="412.940268" rx="20" ry="20"  stroke-width="0"/>
+		 <ellipse cx="317.7137" cy="413.105036" rx="20" ry="20"  stroke-width="0"/>
+		 <ellipse cx="182.484543" cy="87.070038" rx="20" ry="20"  stroke-width="0"/>
+		 <ellipse cx="317.515442" cy="87.234806" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		<g transform="rotate(90, 250.723, 250.361)">
+		 <ellipse cx="183.306216" cy="413.213998" rx="20" ry="20"  stroke-width="0"/>
+		 <ellipse cx="318.337115" cy="413.378766" rx="20" ry="20"  stroke-width="0"/>
+		 <ellipse cx="183.107958" cy="87.343768" rx="20" ry="20"  stroke-width="0"/>
+		 <ellipse cx="318.138857" cy="87.508537" rx="20" ry="20"  stroke-width="0"/>
+		</g>
+		<ellipse cx="250" cy="250" fill-opacity="0"rx="100" ry="100"  stroke-width="25"/>
+	</g>
+</svg>
 
 </body>
 </html>
