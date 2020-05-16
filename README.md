@@ -2,6 +2,8 @@
 
 ## How to download:
 
+#### Latest version:
+
 1. Go to the latest release:
 
 https://github.com/HJfod/gd-backup/releases/latest
@@ -10,19 +12,31 @@ https://github.com/HJfod/gd-backup/releases/latest
 
 3. Extract the contents of the zip somewhere and run GDShare.exe
 
+#### Development version:
+
+1. Download the project as ZIP
+
+2. Install [NodeJS](https://nodejs.org/en/).
+
+3. Make a new folder for the project somewhere on your computer and extract the ZIP onto it
+
+4. Navigate to the folder in the command line and type in "npm install"
+
+5. Type "npm start" to run the program
+
 ## Planned features:
 
 Additions
 
- * Ability to view level info such as description, length, song, etc.
+ * Ability to view level info such as description, length, song, etc. `WIP`
 
- * Ability to make backups
+ * Ability to make backups `WIP`
 
  * CCLocalLevels path select open dialog
 
 UI
 
- * Proper help dialogs WIP
+ * Proper help dialogs
 
 ## Dependencies:
 
