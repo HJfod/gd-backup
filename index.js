@@ -55,7 +55,7 @@ app.on("ready", () => {
 	
 	w_main.loadFile("main.html");
 	
-	w_main.setMenu(null);
+	//w_main.setMenu(null);
 	
 	w_main.on("closed", () => {
 		app.quit();
@@ -101,7 +101,7 @@ ipc.on("app", (event, arg) => {
 			importLevel(arg.path);
 			break;
 		case "open-folder":
-			require('child_process').exec('start "" "' + path.join(__dirname + dLoop,arg.folder + '"'));
+			require('child_process').exec('start "" "' + path.join(__dirname + ((arg.sett = 'noDLoop') ? "" : dLoop), arg.folder + '"'));
 			break;
 		case "select-export":
 			export_path = dialog.showOpenDialogSync({ title: "Select export folder", properties: ["openDirectory"] })[0];
@@ -169,6 +169,12 @@ function saveToUserdata(key, val) {
 	fs.writeFileSync(path.join(__dirname,dLoop,"/data/userdata." + ext), JSON.stringify(o));
 }
 
+function refreshDataFolder() {
+	fs.readdirSync(path.join(gd_path + '/..'), { withFileTypes: true }).forEach(i => {
+		w_main.webContents.send("app", `{ "action": "data-file", "name": "${i.name}", "type": "${i.isFile() ? "file" : "dir"}" }`);
+	});
+}
+
 function createDefaultThemes(dir) {
 	let themes = [
 		{
@@ -223,6 +229,8 @@ function validateGDPath() {
 	}
 	
 	console.log("Save data decoded!");
+
+	refreshDataFolder();
 	
 	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Save data loaded!" }`);
 
@@ -240,7 +248,16 @@ function validateGDPath() {
 		let levelNameList = [];
 		levels.forEach((lvl) => {
 			n = lvl.split(`<k>k2</k><s>`).pop();
-			levelNameList.push(n.substring(0,n.indexOf("<")).replace(/'/g,'"'));
+			n = n.substring(0,n.indexOf("<")).replace(/'/g,'"');
+			let c = 1;
+			while (levelNameList.includes(n)){
+				n = n.substring(0,(c === 1) ? n.length : n.length-3-c.toString().length) + " (" + c + ")";
+				c++;
+				if (c > 20){
+					break;
+				}
+			}
+			levelNameList.push(n);
 		});
 		w_main.webContents.send("app", `{ "action": "level-list", "list": "${levelNameList}" }`);
 	}

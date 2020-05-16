@@ -102,6 +102,19 @@ window.addEventListener("message", event => {
 			case "switch-theme":
 				changeTheme(args.to);
 				break;
+			case "data-file":
+				/*if (args.type === "dir"){
+					let s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
+						u = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+					u.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#folder');
+					s.appendChild(u);
+					s.setAttribute("class","svg-folder");
+					s.setAttribute("viewBox","0 0 500 500");
+					f.appendChild(s);
+				}		//*/
+				//f.innerHTML = args.name;					// <svg class="svg" viewBox="0 0 500 500"><use xlink:href="#folder"/></svg>
+				document.querySelector("#backup-select").addOption(args.name, args.name);
+				break;
 			case "loading":
 				if (args.lgt === 'infinite'){
 					loading.querySelector("#l-c").style.display = "initial";
@@ -125,9 +138,7 @@ window.addEventListener("message", event => {
 			case "level-list":
 				level_list = args.list.split(",");
 				level_list.forEach(i => {
-					let o = document.createElement("option");
-					o.innerHTML = i;
-					lvlGetInput.appendChild(o);
+					lvlGetInput.addOption(i,i);
 				});
 				document.querySelector("#level-amount").innerHTML = "Level count: " + level_list.length;
         }

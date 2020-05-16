@@ -3,6 +3,7 @@
 <head>
 <script src="scripts/functions.js" defer></script>
 <script src="scripts/main.js" defer></script>
+<script src="scripts/select.js" defer></script>
 <link rel="stylesheet" href="scripts/style.css"/>
 </head>
 <body>
@@ -28,13 +29,11 @@
 
 		<br>
 
-		<button disabled>Create new backup</button>
+		<button>Create new backup</button>
 		
 		<br>
 
-		<select size="4" id="backup-select">
-			<option disabled>WIP feature! Not implemented yet :(</option>
-		</select>
+		<select-menu size="4" id="backup-select" emptytext="No backups found." multiple onchange="console.log('bigag')"></select-menu>
 		
 	</div>
 	
@@ -68,11 +67,11 @@
 		
 		<br><br>
 
-		<select size="4" multiple="multiple" id="level-list" onchange="selectLevel()" multiple></select>
+		<select-menu size="4" multiple id="level-list" emptytext="No levels found." onchange="selectLevel()" multiple></select-menu>
 		
 		<br><br>
 		
-		<input oninput="searchList(event)" placeholder="Search levels..."></input>
+		<input oninput="lvlGetInput.search(event.target.value)" placeholder="Search levels..."></input>
 		
 		<br>
 		
@@ -119,7 +118,7 @@
 			<br>
 			<text>Some OOTB help dialogs are planned to be added in future updates, but for now, you can refer to the help text file. If you are in need of assistance, contact HJfod on Discord at HJfod#1795.</text>
 			<br><br>
-			<text class="link" onclick="folder('help.txt')">Open help file</text>
+			<text class="link" onclick="folder('help.txt','noDLoop')">Open help file</text>
 			<br><br>
 			<text>If you find an issue, </text>
 			<text class="link" onclick="openLink('https://github.com/HJfod/gd-backup/issues')">please file a bug report on Github</text>

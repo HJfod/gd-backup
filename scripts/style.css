@@ -141,6 +141,44 @@ input[type="checkbox"] {
 	width: calc( 100% - var(--pad) * 2 );
 }
 
+select-menu {
+	background-color: var(--c-dark);
+	font-size: var(--t-size);
+	padding: var(--pad);
+	width: calc( 100% - var(--pad) * 4 );
+	display: block;
+	border: none;
+	border-radius: var(--corner);
+	transition-duration: var(--trans);
+	overflow-y: scroll;
+}
+
+.option {
+	padding: var(--pad);
+	font-size: var(--t-size);
+	font-family: var(--font-2);
+	border-radius: var(--corner);
+	color: var(--c-text);
+	width: 100%;
+	text-align: left;
+}
+
+.option-selected {
+	background-color: var(--c-sec);
+}
+
+.option-selected:not(:disabled):hover {
+	background-color: var(--c-third);
+}
+
+option:disabled {
+	padding: var(--pad);
+	font-size: var(--t-size);
+	font-family: var(--font-2);
+	color: var(--c-disable);
+	user-select: none;
+}
+
 select {
 	background-color: var(--c-dark);
 	font-size: var(--t-size);
@@ -149,29 +187,6 @@ select {
 	border: none;
 	border-radius: var(--corner);
     transition-duration: var(--trans);
-}
-
-option {
-	background: rgba(0,0,0,0);
-	padding: var(--pad);
-	font-size: var(--t-size);
-	font-family: var(--font-2);
-	border-radius: var(--corner);
-	color: var(--c-text);
-}
-
-option:not(:disabled):hover { 
-	background: var(--c-hover);
-}
-
-option:disabled {
-	color: var(--c-disable);
-}
-
-option:checked {
-    color: white;
-    -webkit-text-fill-color: white;
-    background: #1e90ff repeat url("http://i.stack.imgur.com/Istm3.jpg");
 }
 
 main-content {
@@ -229,6 +244,15 @@ main-content {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: calc( 0px - var(--pad) * 2 );
+	pointer-events: none;
+	transition-duration: var(--trans);
+}
+
+.svg-folder {
+	fill: var(--c-text);
+	stroke: var(--c-text);
+	height: var(--t-size);
+	display: block;
 	pointer-events: none;
 	transition-duration: var(--trans);
 }

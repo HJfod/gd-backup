@@ -100,34 +100,12 @@ function section(to) {
 	}
 }
 
-function folder(which) {
-	ipcSend({ action: "open-folder", folder: which });
-}
-
-function searchList(e) {
-	let a = true;
-	lvlGetInput.childNodes.forEach(i => {
-		if (i.innerHTML.toLowerCase().trim().indexOf(e.target.value.toLowerCase().trim()) === -1){
-			i.setAttribute("hidden","");
-		}else{
-			i.removeAttribute("hidden");
-			a = false;
-		}
-	});
-	if (a) {
-		let o = document.createElement("option");
-		o.innerHTML = "No levels found.";
-		o.setAttribute("disabled","");
-		o.setAttribute("id","no-options");
-		lvlGetInput.appendChild(o);
-	}else{
-		if (document.querySelector("#no-options")){
-			lvlGetInput.removeChild(document.querySelector("#no-options"));
-		}
-	}
+function folder(which, args = false) {
+	ipcSend({ action: "open-folder", folder: which, sett: args });
 }
 
 function selectLevel() {
+	console.log("here");
 	let b = document.querySelector("#level-get");
 	if (lvlGetInput.value){
 		b.removeAttribute("disabled");
