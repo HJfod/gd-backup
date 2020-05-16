@@ -141,7 +141,7 @@ function viewLevel(name, back) {
 }
 
 function changeTheme(e) {
-	if (!e) {
+	if (e === "false" || !e) {
 		e = document.querySelector("#theme-select").getAttribute("value");
 	}
 	if (e === "") return;

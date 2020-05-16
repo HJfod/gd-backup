@@ -10,7 +10,9 @@ class SelectMenu extends HTMLElement {
         this.setAttribute("value","");
 
         if (this.hasAttribute("onchange")){
-            this.addEventListener("change", eval(this.getAttribute("onchange")));
+            let a = this.getAttribute("onchange").split("(").shift();
+            let args = this.getAttribute("onchange").split("(").pop().replace(")","").split(",");
+            this.addEventListener("change", window[a]( ...args ));
         }
 
         let t = document.createElement("option");
@@ -47,7 +49,7 @@ class SelectMenu extends HTMLElement {
                     let b = document.createElement("button");
                     b.innerHTML = i.text;
                     b.setAttribute("class","mini-option");
-                    b.setAttribute("onclick",`event.stopPropagation(); eval("${i.act.replace(/LEVELNAME/g,`'${text}'`)}")`);
+                    b.setAttribute("onclick",`event.stopPropagation(); window["${i.act.split("(").shift()}"]( ${i.act.split("(").pop().replace(/LEVELNAME/g,`'${text}'`).slice(0,-1)} )`);
                     b.style.display = "none";
 
                     n.setAttribute("onmouseenter",`event.target.querySelectorAll("button").forEach(i => i.style.display="initial")`);
