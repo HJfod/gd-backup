@@ -359,6 +359,21 @@ main-content {
 	animation: spin var(--spin) linear infinite;
 }
 
+.distinct-div {
+	background-color: var(--c-dark);
+	padding: var(--pad);
+	width: calc( 100% - var(--pad) * 4 );
+	display: block;
+	border: none;
+	border-radius: var(--corner);
+	transition-duration: var(--trans);
+}
+
+.level-info-text {
+	font-size: calc( var(--t-size) * 1.2 );
+	padding: var(--pad);
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }

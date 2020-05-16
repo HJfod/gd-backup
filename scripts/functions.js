@@ -136,7 +136,6 @@ function checkUpdate() {
 function viewLevel(name, back) {
 	tab('analyze');
 	document.getElementById("analyze-back").setAttribute("onclick",`tab('${back}')`);
-	document.getElementById("analyze-level-name").innerHTML = name;
 	ipcSend({ action: "get-level-info", name: name });
 }
 

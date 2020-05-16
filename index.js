@@ -280,6 +280,9 @@ function validateGDPath() {
 }
 
 function getValue(lvl, key, type) {
+	if (type === null){
+		return lvl.split(`<k>${key}</k>`).pop().substring(0,100);
+	}
 	if (type){
 		return lvl.split(`<k>${key}</k><${type}>`).pop().substring(0,lvl.split(`<k>${key}</k><${type}>`).pop().indexOf('<'));
 	}else{
@@ -287,8 +290,40 @@ function getValue(lvl, key, type) {
 	}
 }
 
+function base64(base64String) {
+	return Buffer.from(base64String.replace(/-/g, "+").replace(/_/g, "/"), "base64");
+}
+
+function replaceOfficialSong(i) {
+	let s = {
+		0: 'Stereo Madness',
+		1: 'Back on Track',
+		2: 'Polargeist',
+		3: 'Dry Out',
+		4: 'Base After Base',
+		5: 'Cant Let Go',
+		6: 'Jumper',
+		7: 'Time Machine',
+		8: 'Cycles',
+		9: 'xStep',
+		10:'Clutterfunk',
+		11:'Theory of Everything',
+		12:'Electroman Adventures',
+		13:'Clubstep',
+		14:'Electrodynamix',
+		15:'Hexagon Force',
+		16:'Blast Processing',
+		17:'Theory of Everything 2',
+		18:'Geometrical Dominator',
+		19:'Deadlocked',
+		20:'Fingerdash'
+	}
+	return s[i];
+}
+
 function getLevelInfo(name) {
 	name = name.toLowerCase();
+	if (name.endsWith(")")) name = name.substring(0,name.length-4);
 	let foundLevel = levels.find(x => x.toLowerCase().includes(`<k>k2</k><s>${name}</s>`));
 	if (!foundLevel){
 		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Something went wrong (level does not exist?)" }`);
@@ -296,18 +331,24 @@ function getLevelInfo(name) {
 		return;
 	}else{
 		let time = getValue(foundLevel, "k80", "i");
-		let level_info = {
-			length: getValue(foundLevel, "k23", "i").replace(/^\s*$/,"Tiny").replace("1","Short").replace("2","Medium").replace("3","Long").replace("4","XL"),
-			version: getValue(foundLevel, "k16", "i"),
-			password: getValue(foundLevel, "k41", "i").substring(1),
-			songID: getValue(foundLevel, "k8", "i") ? getValue(foundLevel, "k8", "i") : getValue(foundLevel, "k45", "i"),
-			description: getValue(foundLevel, "k3", "s"),
-			objectCount: getValue(foundLevel, "k48", "i"),
-			editorTime: (time > 3600) ? (time/3600).toFixed(1) + "h" : (time/60).toFixed(1) + "m",
-			id: getValue(foundLevel, "k1", "i"),
-			verified: getValue(foundLevel, "k14", false)
+		let p = getValue(foundLevel, "k41", "i");
+		let desc = base64(getValue(foundLevel, "k3", "s")).toString("utf8");
+		let levelInfo = {
+			name: { text: "Name", val: getValue(foundLevel, "k2", "s") },
+			length: { text: "Length", val: getValue(foundLevel, "k23", "i").replace(/^\s*$/,"Tiny").replace("1","Short").replace("2","Medium").replace("3","Long").replace("4","XL") },
+			creator: { text: "Creator", val: getValue(foundLevel, "k5", "s") },
+			version: { text: "Version", val: getValue(foundLevel, "k16", "i") },
+			password: { text: "Password", val: (p === "1") ? "Free to copy" : (p === "") ? "No copy" : p.substring(1) },
+			songID: { text: "Song", val: getValue(foundLevel, "k8", "i") ? replaceOfficialSong(getValue(foundLevel, "k8", "i")) : getValue(foundLevel, "k45", "i") },
+			description: { text: "Description", val: (desc === "") ? false : desc },
+			objectCount: { text: "Object count", val: getValue(foundLevel, "k48", "i") },
+			editorTime: { text: "Editor time", val: (time > 3600) ? (time/3600).toFixed(1) + "h" : (time/60).toFixed(1) + "m" },
+			verified: { text: "Verified", val: getValue(foundLevel, "k14", false) },
+			attempts: { text: "Attempts", val: getValue(foundLevel, "k18", "i") },
+			rev: { text: "Revision", val: (getValue(foundLevel, "k46", "i") === "") ? "None" : getValue(foundLevel, "k46", "i") },
+			copiedID: { text: "Copied from", val: (getValue(foundLevel, "k42", "i") === "") ? "None" : getValue(foundLevel, "k42", "i") }
 		};
-		console.log(level_info);
+		w_main.webContents.send("app", `{ "action": "analyzed-level-info", "info": ${JSON.stringify(levelInfo)} }`)
 	}
 }
 

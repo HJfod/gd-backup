@@ -102,6 +102,22 @@ window.addEventListener("message", event => {
 			case "data-file":
 				document.querySelector("#backup-select").addOption(args.name, args.name, (args.type === "dir") ? { svg: "#folder-fill" } : null);
 				break;
+			case "analyzed-level-info":
+				document.getElementById("analyze-level-info").innerHTML = "";
+				document.getElementById("analyze-level-name").innerHTML = "";
+				document.getElementById("analyze-level-desc").innerHTML = "";
+				document.getElementById("analyze-level-name").innerHTML = args.info.name.val + " by " + args.info.creator.val;
+				if (args.info.description.val) document.getElementById("analyze-level-desc").innerHTML = `<br><br>"${args.info.description.val}"`;
+
+				Object.keys(args.info).forEach(i => {
+					if (i !== "description" && i !== "creator" && i !== "name"){
+						let p = document.createElement("text");
+						p.innerHTML = args.info[i].text + ": " + args.info[i].val;
+						document.getElementById("analyze-level-info").appendChild(p);
+						document.getElementById("analyze-level-info").innerHTML += "<br>";
+					}
+				});
+				break;
 			case "loading":
 				if (args.lgt === 'infinite'){
 					loading.querySelector("#l-c").style.display = "initial";
