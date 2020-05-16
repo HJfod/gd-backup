@@ -97,6 +97,9 @@ ipc.on("app", (event, arg) => {
 		case "get-level":
 			getLevel(arg.name);
 			break;
+		case "get-level-info":
+			getLevelInfo(arg.name);
+			break;
 		case "import-level":
 			importLevel(arg.path);
 			break;
@@ -165,7 +168,6 @@ function saveToUserdata(key, val) {
 		o = JSON.parse(c);
 	}
 	o[key]= val;
-	console.log(o);
 	fs.writeFileSync(path.join(__dirname,dLoop,"/data/userdata." + ext), JSON.stringify(o));
 }
 
@@ -179,6 +181,7 @@ function createDefaultThemes(dir) {
 	let themes = [
 		{
 			name: "Normal",
+			creator: "HJfod",
 			colors: {
 				bg: "#fff",
 				text: "#000",
@@ -190,6 +193,7 @@ function createDefaultThemes(dir) {
 		},
 		{
 			name: "Dark",
+			creator: "HJfod",
 			colors: {
 				bg: "#11131e",
 				text: "#fff",
@@ -197,6 +201,18 @@ function createDefaultThemes(dir) {
 				third: "#ebc67c",
 				lighten: .4,
 				darken: -.1
+			}
+		},
+		{
+			name: "Blossom",
+			creator: "Mercury",
+			colors: {
+				bg: "#272727",
+				text: "#ffffff",
+				sec: "#ff0874",
+				third: "#ff0874",
+				lighten: -0.15,
+				darken: -0.3
 			}
 		}
 	]
@@ -263,20 +279,47 @@ function validateGDPath() {
 	}
 }
 
-function getLevel(names) {
-	names = names.split(",");
-	if (typeof names  !== 'object'){
-		names = [names];
+function getValue(lvl, key, type) {
+	if (type){
+		return lvl.split(`<k>${key}</k><${type}>`).pop().substring(0,lvl.split(`<k>${key}</k><${type}>`).pop().indexOf('<'));
+	}else{
+		return lvl.split(`<k>${key}</k>`).pop().substring(0,lvl.split(`<k>${key}</k>`).pop().indexOf('>')).includes("t");
 	}
+}
+
+function getLevelInfo(name) {
+	name = name.toLowerCase();
+	let foundLevel = levels.find(x => x.toLowerCase().includes(`<k>k2</k><s>${name}</s>`));
+	if (!foundLevel){
+		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Something went wrong (level does not exist?)" }`);
+		console.log("Could not find level!");
+		return;
+	}else{
+		let time = getValue(foundLevel, "k80", "i");
+		let level_info = {
+			length: getValue(foundLevel, "k23", "i").replace(/^\s*$/,"Tiny").replace("1","Short").replace("2","Medium").replace("3","Long").replace("4","XL"),
+			version: getValue(foundLevel, "k16", "i"),
+			password: getValue(foundLevel, "k41", "i").substring(1),
+			songID: getValue(foundLevel, "k8", "i") ? getValue(foundLevel, "k8", "i") : getValue(foundLevel, "k45", "i"),
+			description: getValue(foundLevel, "k3", "s"),
+			objectCount: getValue(foundLevel, "k48", "i"),
+			editorTime: (time > 3600) ? (time/3600).toFixed(1) + "h" : (time/60).toFixed(1) + "m",
+			id: getValue(foundLevel, "k1", "i"),
+			verified: getValue(foundLevel, "k14", false)
+		};
+		console.log(level_info);
+	}
+}
+
+function getLevel(names) {
 	names.forEach(name => {
-		name = name.toLowerCase()
+		name = name.toLowerCase();
 		let foundLevel = levels.find(x => x.toLowerCase().includes(`<k>k2</k><s>${name}</s>`));
 		if (!foundLevel){
 			w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Level does not exist." }`);
 			console.log("Could not find level!");
 			return;
-		}
-		else {
+		}else{
 			let outputdir = export_path ? `${export_path}/${name}.gmd` : path.join(__dirname,dLoop,`levels/${name}.gmd`);		// export path
 			let n = 0;
 			while (fs.existsSync(outputdir)) {	// check if level with same name exists

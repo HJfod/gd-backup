@@ -171,6 +171,23 @@ select-menu {
 	background-color: var(--c-third);
 }
 
+.mini-option {
+	padding: var(--pad);
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin: calc(0px - var(--pad) / 2);
+	margin-top: 0px;
+	float: right;
+	font-size: var(--t-size);
+	font-family: var(--font-2);
+	border-radius: calc( var(--corner) / 2 );
+	color: var(--c-text);
+}
+
+.mini-option:hover {
+	background-color: var(--third);
+}
+
 option:disabled {
 	padding: var(--pad);
 	font-size: var(--t-size);
@@ -251,10 +268,12 @@ main-content {
 .svg-folder {
 	fill: var(--c-text);
 	stroke: var(--c-text);
-	height: var(--t-size);
+	height: calc( var(--t-size) * 1.2 );
 	display: block;
 	pointer-events: none;
 	transition-duration: var(--trans);
+	white-space: nowrap;
+	float: left;
 }
 
 .tab-selected {

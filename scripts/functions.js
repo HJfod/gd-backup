@@ -12,7 +12,7 @@ function getGDPath() {
 }
 
 function getLevel() {
-	ipcSend({ action: "get-level", name: [...lvlGetInput.options].filter(option => option.selected).map(option => option.value).join(",") });
+	ipcSend({ action: "get-level", name: lvlGetInput.getValue() });
 }
 
 function importLevel() {
@@ -51,7 +51,7 @@ function tab(to) {
 		i.classList.remove("tab-selected");
 	});
 	document.querySelector(`div[data-id="${to}"]`).style.display = 'initial';
-	document.querySelector(`button[onclick="tab('${to}')"]`).classList.add("tab-selected");
+	if (document.querySelector(`button[onclick="tab('${to}')"]`) !== null) document.querySelector(`button[onclick="tab('${to}')"]`).classList.add("tab-selected");
 }
 
 function showMsg(type, lgt, txt, button) {
@@ -105,11 +105,10 @@ function folder(which, args = false) {
 }
 
 function selectLevel() {
-	console.log("here");
 	let b = document.querySelector("#level-get");
-	if (lvlGetInput.value){
+	if (lvlGetInput.getAttribute("value")){
 		b.removeAttribute("disabled");
-		let sel = [...lvlGetInput.options].filter(option => option.selected).map(option => option.value);
+		let sel = lvlGetInput.getValue();
 		b.innerHTML = "Export " + sel.join(", ");
 	}else{
 		b.setAttribute("disabled","");
@@ -134,16 +133,23 @@ function checkUpdate() {
     ipcSend({ action: "check-for-updates" });
 }
 
+function viewLevel(name, back) {
+	tab('analyze');
+	document.getElementById("analyze-back").setAttribute("onclick",`tab('${back}')`);
+	document.getElementById("analyze-level-name").innerHTML = name;
+	ipcSend({ action: "get-level-info", name: name });
+}
+
 function changeTheme(e) {
-	if (e.target){
-		e = e.target.value;
-	}else{
-		themes.forEach((i, ind) => {
-			if (i.name === e){
-				e = ind;
-			}
-		});
+	if (!e) {
+		e = document.querySelector("#theme-select").getAttribute("value");
 	}
+	if (e === "") return;
+	themes.forEach((i, ind) => {
+		if (i.name === e){
+			e = ind;
+		}
+	});
 	let c = themes[e].colors;
 
 	html.style.setProperty(`--c-bg`,c.bg);
@@ -154,9 +160,7 @@ function changeTheme(e) {
 	html.style.setProperty(`--c-dark`,lighten(c.bg,c.lighten));
 	html.style.setProperty(`--c-hover`,lighten(getCSS('--c-dark'),c.lighten));
 	html.style.setProperty(`--c-select`,lighten(getCSS('--c-dark'),c.darken));
-	html.style.setProperty(`--c-disable`,`rgba(${hexToRgb(getCSS("--c-text"))},0.5)`);
-
-	console.log(`rgba(${hexToRgb(getCSS("--c-text"))},0.5)`);
+	html.style.setProperty(`--c-disable`,`rgba(${hexToRgb(getCSS("--c-text"))},${0.5+c.darken})`);
 
 	html.style.setProperty(`--c-link`,c.third);
 	html.style.setProperty(`--c-yes`,c.sec);

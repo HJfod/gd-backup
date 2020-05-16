@@ -93,27 +93,14 @@ window.addEventListener("message", event => {
 				document.querySelector(`button[onclick="tab('export')"]`).removeAttribute("disabled");
 				break;
 			case "add-theme":
-				let o = document.createElement("option");
-				o.innerHTML = args.cont.name;
-				o.value = themes.length;
+				document.querySelector("#theme-select").addOption(args.cont.name,themes.length);
 				themes.push(args.cont);
-				document.querySelector("#theme-select").appendChild(o);
 				break;
 			case "switch-theme":
 				changeTheme(args.to);
 				break;
 			case "data-file":
-				/*if (args.type === "dir"){
-					let s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
-						u = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-					u.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#folder');
-					s.appendChild(u);
-					s.setAttribute("class","svg-folder");
-					s.setAttribute("viewBox","0 0 500 500");
-					f.appendChild(s);
-				}		//*/
-				//f.innerHTML = args.name;					// <svg class="svg" viewBox="0 0 500 500"><use xlink:href="#folder"/></svg>
-				document.querySelector("#backup-select").addOption(args.name, args.name);
+				document.querySelector("#backup-select").addOption(args.name, args.name, (args.type === "dir") ? { svg: "#folder-fill" } : null);
 				break;
 			case "loading":
 				if (args.lgt === 'infinite'){

@@ -33,7 +33,7 @@
 		
 		<br>
 
-		<select-menu size="4" id="backup-select" emptytext="No backups found." multiple onchange="console.log('bigag')"></select-menu>
+		<select-menu size="6" id="backup-select" emptytext="No backups found."></select-menu>
 		
 	</div>
 	
@@ -62,14 +62,8 @@
 	</div>
 	
 	<div data-id="export">
-		
-		<text class="small-text">Hold CTRL to select multiple / deselect</text>
-		
-		<br><br>
 
-		<select-menu size="4" multiple id="level-list" emptytext="No levels found." onchange="selectLevel()" multiple></select-menu>
-		
-		<br><br>
+		<select-menu size="6" multiple id="level-list" emptytext="No levels found." onchange="selectLevel()" multiple hover='[{ "type": "Button", "text": "View", "act": "viewLevel(LEVELNAME, `export`)" }]'></select-menu>
 		
 		<input oninput="lvlGetInput.search(event.target.value)" placeholder="Search levels..."></input>
 		
@@ -94,6 +88,16 @@
 		<br><br>
 		
 	</div>
+
+	<div data-id="analyze">
+		
+		<button id="analyze-back">Back</button>
+
+		<br><br>
+
+		<text id="analyze-level-name"></text>
+
+	</div>
 	
 	<div data-id="settings">
 		
@@ -106,7 +110,7 @@
 
 			<br><br>
 
-			<select size="4" id="theme-select" onchange="changeTheme(event)"></select>
+			<select-menu size="4" id="theme-select" emptytext="No themes installed." onchange="changeTheme(false)"></select-menu>
 			
 			<br><br>
 			
@@ -130,12 +134,18 @@
 		<button class="section" onclick="section('About')">About</button>
 		<div data-section="About" hidden>
 			
-			<h3>Creators: </h3>
+			<h3>Creators:</h3>
 			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCqTA6JFpt6l4y0gz72AQswA')">HJfod</text><text style="opacity:.5">     Developer</text><br>
 			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCFDsxSlQXpLLpVScy2NmbcQ')">GDColon</text><text style="opacity:.5">     Developer</text><br>
 			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCVs0uwKdPbIv0VjMvZAYM4Q')">Mercury</text><text style="opacity:.5">     Designer</text><br>
 			<text> • </text><text>Simonoson</text><text style="opacity:.5">     Idea</text><br>
-			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCTH5HiONyom4GseT2xbw-TQ')">Kyuuti</text><text style="opacity:.5">     Artist</text><br><br>
+
+			<h3>Special thanks:</h3>
+			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCTH5HiONyom4GseT2xbw-TQ')">Kyuuti</text><text style="opacity:.5">     Artist</text><br>
+			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCwEsWDs9kGN2vvoiNTJKdaQ')">SMJS</text><text style="opacity:.5">     GD Parser</text><br>
+			
+			<br>
+
 			<text class="link" onclick="openLink('https://github.com/HJfod/gd-backup')">Github page</text>
 			<br><br>
 			<h5 id="version-number">Version: Beta NUMBER-HERE   </h5><h5 class="link" onclick="checkUpdate()">Check for updates</h5>
@@ -338,6 +348,19 @@
 		 <ellipse cx="318.138857" cy="87.508537" rx="20" ry="20"  stroke-width="0"/>
 		</g>
 		<ellipse cx="250" cy="250" fill-opacity="0"rx="100" ry="100"  stroke-width="25"/>
+	</g>
+	<g id="folder-fill">
+		<rect height="220" stroke-width="0" width="500" x="0" y="160"/>
+		<ellipse cx="40" cy="120" rx="40" ry="40"stroke-width="0"/>
+		<rect height="140" stroke-width="0" width="160" x="40" y="80"/>
+		<ellipse cx="40" cy="380" rx="40" ry="40"stroke-width="0"/>
+		<ellipse cx="460" cy="380" rx="40" ry="40"stroke-width="0"/>
+		<rect height="80" stroke-width="0" width="420" x="40" y="340"/>
+		<ellipse cx="460" cy="160" rx="40" ry="40"stroke-width="0"/>
+		<rect height="60" stroke-width="0" width="460" x="0" y="120"/>
+		<rect height="140" stroke-width="0" transform="rotate(-45, 235.5, 144)" width="40" x="215.5" y="74"/>
+		<rect height="140" stroke-width="0" width="210" x="0" y="120"/>
+		<rect height="140" stroke-width="0" width="210" x="20" y="140"/>
 	</g>
 </svg>
 
