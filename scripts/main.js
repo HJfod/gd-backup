@@ -78,7 +78,7 @@ window.addEventListener("message", event => {
             case "return":
                 console.log(`Received: ${args.text}`);
                 break;
-			case "probable-path":
+			case "gd-path":
 				pathInput.value = args.path;
 				break;
 			case "version":

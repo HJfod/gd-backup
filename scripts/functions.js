@@ -125,6 +125,10 @@ function toggleButton(e, b, i = false) {
 	}
 }
 
+function browseForGDPath(){
+	ipcSend({ action: "browse-for-path" });
+}
+
 function selectExportFolder() {
 	ipcSend({ action: "select-export" });
 }

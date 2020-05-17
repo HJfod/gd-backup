@@ -75,7 +75,7 @@ ipc.on("app", (event, arg) => {
 		case "init":
 			let p = (process.env.HOME || process.env.USERPROFILE) + "/AppData/Local/GeometryDash/CCLocalLevels.dat";
 			p = p.replace(/\\/g,"/");
-			w_main.webContents.send("app", `{ "action": "probable-path", "path": "${p}" }`);
+			w_main.webContents.send("app", `{ "action": "gd-path", "path": "${p}" }`);
 			w_main.webContents.send("app", `{ "action": "version", "v": "v${require('./package.json').version}" }`);
 
 			fs.readdirSync(path.join(__dirname + dLoop, "data/themes")).filter(i => i.endsWith(thext)).forEach(i => {
@@ -112,6 +112,12 @@ ipc.on("app", (event, arg) => {
 			break;
 		case "change-theme":
 			saveToUserdata("theme",arg.theme);
+			break;
+		case "browse-for-path":
+			let def = ((process.env.HOME || process.env.USERPROFILE) + "\\AppData\\Local\\GeometryDash");
+			console.log(def);
+			let pa = dialog.showOpenDialogSync({ title: "Select CCLocalLevels.dat", filters: "*.dat", defaultPath: def, properties: ["showHiddenFiles"] });
+			if (pa) w_main.webContents.send("app", `{ "action": "gd-path", "path": "${pa[0].replace(/\\/g,"/")}" }`);
 			break;
 		case "check-for-updates":
 			const https = require('https');
