@@ -43,6 +43,10 @@ function getCSS(v) {
     }
 }
 
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 function lighten(hex, lum) {	// thanks sitepoint.com
 
     // validate hex string

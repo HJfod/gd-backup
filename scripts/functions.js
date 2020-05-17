@@ -11,13 +11,13 @@ function getGDPath() {
 	ipcSend({ action: "gd-path", path: pathInput.value });
 }
 
-function getLevel() {
-	ipcSend({ action: "get-level", name: lvlGetInput.getValue() });
+function getLevel(x = false) {
+	ipcSend({ action: "get-level", name: x ? x : lvlGetInput.getValue() });
 }
 
-function importLevel() {
-	if (lvlImpInput.files[0]){
-		ipcSend({ action: "import-level", path: lvlImpInput.files[0].path.replace(/\\/g,"/") });
+function importLevel(x = false) {
+	if (lvlImpInput.files[0] || x){
+		ipcSend({ action: "import-level", path: x ? x : lvlImpInput.files[0].path.replace(/\\/g,"/") });
 	}
 }
 
@@ -138,8 +138,21 @@ function checkUpdate() {
 }
 
 function viewLevel(name, back) {
+	console.log(name);
 	tab('analyze');
 	document.getElementById("analyze-back").setAttribute("onclick",`tab('${back}')`);
+
+	let act = "";
+	switch (back){
+		case "export":
+			act = `getLevel(["${name}"])`;
+			break;
+		case "import":
+			act = `importLevel("${name}")`;
+			break;
+	}
+	document.querySelector("#analyze-action").children[0].setAttribute("onclick", act);
+	document.querySelector("#analyze-action").children[0].innerHTML = back.capitalize();
 	ipcSend({ action: "get-level-info", name: name });
 }
 

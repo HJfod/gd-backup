@@ -55,7 +55,7 @@ app.on("ready", () => {
 	
 	w_main.loadFile("main.html");
 	
-	//w_main.setMenu(null);
+	w_main.setMenu(null);
 	
 	w_main.on("closed", () => {
 		app.quit();
@@ -328,9 +328,19 @@ function replaceOfficialSong(i) {
 }
 
 function getLevelInfo(name) {
-	name = name.toLowerCase();
-	if (name.endsWith(")")) name = name.substring(0,name.length-4);
-	let foundLevel = levels.find(x => x.toLowerCase().includes(`<k>k2</k><s>${name}</s>`));
+	let foundLevel;
+	if (name.indexOf("/") === -1){
+		name = name.toLowerCase();
+		if (name.endsWith(")")) name = name.substring(0,name.length-4);
+		foundLevel = levels.find(x => x.toLowerCase().includes(`<k>k2</k><s>${name}</s>`));
+	}else{
+		try { fs.accessSync(name) } catch(err) {
+			w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Unable to view info: ${err}" }`);
+			console.log(err);
+			return;
+		}
+		foundLevel = fs.readFileSync(name, 'utf8');
+	}
 	if (!foundLevel){
 		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Something went wrong (level does not exist?)" }`);
 		console.log("Could not find level!");

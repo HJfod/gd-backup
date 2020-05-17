@@ -32,8 +32,6 @@ Additions
 
  * Ability to make backups `WIP`
 
- * CCLocalLevels path select open dialog
-
 UI
 
  * Proper help dialogs

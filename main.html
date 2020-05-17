@@ -31,7 +31,7 @@
 
 		<br>
 
-		<button>Create new backup</button>
+		<button disabled>Sorry, this feature is still WIP!</button>
 		
 		<br>
 
@@ -52,12 +52,14 @@
 		<div id="level-zone">
 			<button onclick="closeLevel()">Close</button>
 			
-			<br><br>
+			<br>
 			
 			<p id="level-name"></p>
 			
-			<br><br>
+			<br>
 			
+			<button onclick='viewLevel(`${document.getElementById("level-name").innerHTML}`,"import")'>Analyze</button>
+
 			<button onclick="importLevel()">Import level</button>
 		</div>
 		
@@ -104,6 +106,12 @@
 		<br><br>
 
 		<div class="distinct-div" id="analyze-level-info"></div>
+
+		<br>
+
+		<div id="analyze-action">
+			<button onclick="getLevel(LEVELNAME)">Export</button>
+		</div>
 
 	</div>
 	
