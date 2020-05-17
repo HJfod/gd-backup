@@ -31,11 +31,13 @@
 
 		<br>
 
-		<button disabled>Sorry, this feature is still WIP!</button>
+		<button onclick="newBackup()">Make new backup</button>
+
+		<button onclick="importBackup()">Import backup</button>
 		
 		<br>
 
-		<select-menu size="6" id="backup-select" emptytext="No backups found."></select-menu>
+		<select-menu size="6" id="backup-select" emptytext="No backups found." hover='[{ "type": "Button", "text": "View", "act": "" },{ "type": "Button", "text": "Switch", "act": "" }]'></select-menu>
 		
 	</div>
 	
@@ -116,6 +118,17 @@
 	</div>
 	
 	<div data-id="settings">
+
+		<button class="section" onclick="section('Settings')">Settings</button>
+		<div data-section="Settings" hidden>
+			
+			<br>
+
+			<input type="checkbox" onchange="changeDateFormat(event)">Format date as MM/DD/YY</input>
+			
+			<br><br>
+			
+		</div>
 		
 		<button class="section" onclick="section('Theme')">Display</button>
 		<div data-section="Theme" hidden>

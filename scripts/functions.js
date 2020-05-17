@@ -137,6 +137,18 @@ function checkUpdate() {
     ipcSend({ action: "check-for-updates" });
 }
 
+function newBackup() {
+	ipcSend({ action: "new-backup" });
+}
+
+function importBackup() {
+	ipcSend({ action: "import-backup" });
+}
+
+function changeDateFormat(e) {
+	ipcSend({ action: "change-date-format", toInvert: e.target.checked });
+}
+
 function viewLevel(name, back) {
 	console.log(name);
 	tab('analyze');

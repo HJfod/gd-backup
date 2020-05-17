@@ -17,6 +17,8 @@ let export_path;
 let ext = "udat";
 let thext = "gdbt";
 let themeList = [];
+let dateFormat = false;
+let includedBackupDirs = [];
 
 let dLoop = "";
 dTesting: for (let i = 0; i < 5; i++) {
@@ -55,7 +57,7 @@ app.on("ready", () => {
 	
 	w_main.loadFile("main.html");
 	
-	w_main.setMenu(null);
+	//w_main.setMenu(null);
 	
 	w_main.on("closed", () => {
 		app.quit();
@@ -82,6 +84,9 @@ ipc.on("app", (event, arg) => {
 				w_main.webContents.send("app", `{ "action": "add-theme", "cont": ${fs.readFileSync(path.join(__dirname + dLoop, "data/themes", i))} }`);
 			});
 			
+			if (settings.includedDirs){
+				includedBackupDirs = settings.includedDirs;
+			}
 			if (settings.gdpath) {
 				gd_path = settings.gdpath;
 				validateGDPath();
@@ -103,6 +108,9 @@ ipc.on("app", (event, arg) => {
 		case "import-level":
 			importLevel(arg.path);
 			break;
+		case "change-date-format":
+			dateFormat = arg.toInvert;
+			break;
 		case "open-folder":
 			require('child_process').exec('start "" "' + path.join(__dirname + dLoop, arg.folder) + '"');
 			break;
@@ -112,6 +120,12 @@ ipc.on("app", (event, arg) => {
 			break;
 		case "change-theme":
 			saveToUserdata("theme",arg.theme);
+			break;
+		case "new-backup":
+			makeNewBackup();
+			break;
+		case "import-backup":
+			addBackup();
 			break;
 		case "browse-for-path":
 			let def = ((process.env.HOME || process.env.USERPROFILE) + "\\AppData\\Local\\GeometryDash");
@@ -178,9 +192,60 @@ function saveToUserdata(key, val) {
 }
 
 function refreshDataFolder() {
+	w_main.webContents.send("app", `{ "action": "clear-data-folder" }`);
 	fs.readdirSync(path.join(gd_path + '/..'), { withFileTypes: true }).forEach(i => {
-		w_main.webContents.send("app", `{ "action": "data-file", "name": "${i.name}", "type": "${i.isFile() ? "file" : "dir"}" }`);
+		if (i.name.startsWith("GDSHARE")){
+			w_main.webContents.send("app", `{ "action": "data-file", "name": "${i.name}", "type": "${i.isFile() ? "file" : "dir"}" }`);
+		}
 	});
+	includedBackupDirs.forEach(i => {
+		w_main.webContents.send("app", `{ "action": "data-file", "name": "${i.split("/").pop()}", "type": "dir", "path": "${i}" }`);
+	});
+}
+
+function addBackup(){
+	let def = ((process.env.HOME || process.env.USERPROFILE) + "\\AppData\\Local\\GeometryDash");
+	let bpath = dialog.showOpenDialogSync({ title: "Select directory", defaultPath: def, properties: ["openDirectory","showHiddenFiles"] });
+	if (bpath){
+		bpath = bpath[0].replace(/\\/g,"/");
+		let verify = false;
+		fs.readdirSync(bpath, { withFileTypes: true }).forEach(i => {
+			if (i.name === "CCLocalLevels.dat"){
+				verify = true;
+			}
+		});
+		if (verify){
+			includedBackupDirs.push(bpath);
+			saveToUserdata("includedDirs", includedBackupDirs);
+			w_main.webContents.send("app", `{ "action": "data-file", "name": "${bpath.split("/").pop()}", "type": "dir", "toTop": "true", "path": "${bpath}" }`);
+			console.log("Added backup directory!");
+		}else{
+			console.log("Picked folder does not appear to contain CCLocalLevels.");
+			w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "This does not appear to be a backup directory." }`);
+		}
+	}
+}
+
+function makeNewBackup() {
+	let time = new Date();
+	time = { m: time.getMonth()+1, d: time.getDate(), y: time.getFullYear() };
+	let gpath = path.join(gd_path + '/..').replace(/\\/g,"/");
+	let fname = `GDSHARE-${dateFormat ? time.m : time.d}${dateFormat ? "/" : "."}${dateFormat ? time.d : time.m}${dateFormat ? "/" : "."}${time.y}`;
+
+	try {
+		fs.accessSync(`${gpath}/${fname}`);
+		console.log("Backup on this date already exists");
+		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Backup on this date already exists!" }`);
+		return;			// change this to just replace or make a new backup later
+	} catch (err) {
+		fs.mkdirSync(`${gpath}/${fname}`);
+		console.log(`Made new folder ${fname}`);
+		["CCLocalLevels.dat","CCLocalLevels2.dat","CCGameManager.dat","CCGameManager2.dat"].forEach(i => {
+			fs.copyFileSync(`${gpath}/${i}`, `${gpath}/${fname}/${i}`);
+		});
+		console.log(`Copied all files over to backup!`);
+		w_main.webContents.send("app", `{ "action": "data-file", "name": "${fname}", "type": "dir", "toTop": "true" }`);
+	}
 }
 
 function createDefaultThemes(dir) {

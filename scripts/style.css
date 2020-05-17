@@ -177,6 +177,7 @@ select-menu {
 	padding-bottom: 0px;
 	margin: calc(0px - var(--pad) / 2);
 	margin-top: 0px;
+	margin-left: calc( var(--pad) );
 	float: right;
 	font-size: var(--t-size);
 	font-family: var(--font-2);

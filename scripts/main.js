@@ -103,8 +103,11 @@ window.addEventListener("message", event => {
 			case "switch-theme":
 				changeTheme(args.to);
 				break;
+			case "clear-data-folder":
+				document.querySelector("#backup-select").clear();
+				break;
 			case "data-file":
-				document.querySelector("#backup-select").addOption(args.name, args.name, (args.type === "dir") ? { svg: "#folder-fill" } : null);
+				document.querySelector("#backup-select").addOption(args.name, args.name, { svg: (args.type === "dir") ? "#folder-fill" : false, toTop: args.toTop ? true : false });
 				break;
 			case "analyzed-level-info":
 				document.getElementById("analyze-level-info").innerHTML = "";

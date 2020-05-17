@@ -25,9 +25,16 @@ class SelectMenu extends HTMLElement {
         return this.getAttribute("value").split(",");
     }
 
+    clear(){
+        this.querySelectorAll("button").forEach(i => {
+            i.remove();
+        });
+    }
+
     addOption(text, value, extra = null) {
         if (!this.querySelector("option").hasAttribute("hidden")) this.querySelector("option").setAttribute("hidden","")
         let n = document.createElement("button");
+        let toTop = false;
         if (extra){
             if (extra.svg){
                 let s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
@@ -37,6 +44,9 @@ class SelectMenu extends HTMLElement {
                 s.setAttribute("class","svg-folder");
                 s.setAttribute("viewBox","0 0 500 500");
                 n.appendChild(s);
+            }
+            if (extra.toTop){
+                toTop = true;
             }
         }
         n.innerHTML = n.innerHTML + "\u2003" + text;
@@ -58,7 +68,11 @@ class SelectMenu extends HTMLElement {
                 }
             });
         }
-        this.appendChild(n);
+        if (toTop){
+            this.insertBefore(n, this.childNodes[0]);
+        }else{
+            this.appendChild(n);
+        }
     }
 
     search(query) {
