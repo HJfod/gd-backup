@@ -104,7 +104,7 @@ ipc.on("app", (event, arg) => {
 			importLevel(arg.path);
 			break;
 		case "open-folder":
-			require('child_process').exec('start "" "' + path.join(__dirname + ((arg.sett = 'noDLoop') ? "" : dLoop), arg.folder + '"'));
+			require('child_process').exec('start "" "' + path.join(__dirname + dLoop, arg.folder) + '"');
 			break;
 		case "select-export":
 			export_path = dialog.showOpenDialogSync({ title: "Select export folder", properties: ["openDirectory"] })[0];
