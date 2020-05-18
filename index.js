@@ -91,6 +91,9 @@ ipc.on("app", (event, arg) => {
 				gd_path = settings.gdpath;
 				validateGDPath();
 			}
+			if (settings.dateFormat){
+				w_main.webContents.send("app", `{ "action": "date-format", "f": ${settings.dateFormat} }`);
+			}
 			if (settings.theme){
 				w_main.webContents.send("app", `{ "action": "switch-theme", "to": "${settings.theme}" }`);
 			}
@@ -110,6 +113,7 @@ ipc.on("app", (event, arg) => {
 			break;
 		case "change-date-format":
 			dateFormat = arg.toInvert;
+			saveToUserdata("dateFormat",dateFormat);
 			break;
 		case "open-folder":
 			require('child_process').exec('start "" "' + path.join(__dirname + dLoop, arg.folder) + '"');

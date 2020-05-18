@@ -106,6 +106,13 @@ window.addEventListener("message", event => {
 			case "clear-data-folder":
 				document.querySelector("#backup-select").clear();
 				break;
+			case "date-format":
+				if (args.f) {
+					document.getElementById("inp-date-format").setAttribute("checked","");
+				}else{
+					document.getElementById("inp-date-format").removeAttribute("checked");
+				}
+				break;
 			case "data-file":
 				document.querySelector("#backup-select").addOption(args.name, args.name, { svg: (args.type === "dir") ? "#folder-fill" : (args.type === "diradd") ? "#folder-add" : false, toTop: args.toTop ? true : false });
 				break;
