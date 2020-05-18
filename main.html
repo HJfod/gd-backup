@@ -31,13 +31,15 @@
 
 		<br>
 
-		<button onclick="newBackup()">Make new backup</button>
+		<button onclick="backup('new')">Make new backup</button>
 
-		<button onclick="importBackup()">Import backup</button>
+		<button onclick="backup('import')">Import backup</button>
+
+		<button onclick="backup('refresh')">Refresh</button>
 		
 		<br>
 
-		<select-menu size="6" id="backup-select" emptytext="No backups found." hover='[{ "type": "Button", "text": "View", "act": "" },{ "type": "Button", "text": "Switch", "act": "" }]'></select-menu>
+		<select-menu size="5" id="backup-select" emptytext="No backups found." hover='[{ "type": "Button", "text": "View", "act": "" },{ "type": "Button", "text": "Switch", "act": "" }]'></select-menu>
 		
 	</div>
 	
@@ -379,17 +381,35 @@
 		<ellipse cx="250" cy="250" fill-opacity="0"rx="100" ry="100"  stroke-width="25"/>
 	</g>
 	<g id="folder-fill">
-		<rect height="220" stroke-width="0" width="500" x="0" y="160"/>
-		<ellipse cx="40" cy="120" rx="40" ry="40"stroke-width="0"/>
-		<rect height="140" stroke-width="0" width="160" x="40" y="80"/>
-		<ellipse cx="40" cy="380" rx="40" ry="40"stroke-width="0"/>
-		<ellipse cx="460" cy="380" rx="40" ry="40"stroke-width="0"/>
-		<rect height="80" stroke-width="0" width="420" x="40" y="340"/>
-		<ellipse cx="460" cy="160" rx="40" ry="40"stroke-width="0"/>
-		<rect height="60" stroke-width="0" width="460" x="0" y="120"/>
-		<rect height="140" stroke-width="0" transform="rotate(-45, 235.5, 144)" width="40" x="215.5" y="74"/>
-		<rect height="140" stroke-width="0" width="210" x="0" y="120"/>
-		<rect height="140" stroke-width="0" width="210" x="20" y="140"/>
+		<rect height="200" stroke-width="0" width="500" x="0" y="180"/>
+		<rect height="240" stroke-width="0" width="460" x="20" y="160"/>
+		<ellipse cx="480" cy="180" rx="20" ry="20"stroke-width="0"/>
+		<ellipse cx="480" cy="380" rx="20" ry="20"stroke-width="0"/>
+		<ellipse cx="20" cy="380" rx="20" ry="20"stroke-width="0"/>
+		<ellipse cx="20" cy="120" rx="20" ry="20"stroke-width="0"/>
+		<rect height="90" stroke-width="0" width="160" x="0" y="120"/>
+		<path d="m149.999996,169.999998l0,-69.998664l69.999999,69.998664l-69.999999,0z"stroke-width="0"/>
+		<rect height="40" stroke-width="0" width="130" x="20" y="100"/>
+		<rect height="40" stroke-width="0" width="130" x="25" y="110"/>
+	</g>
+	<g id="folder-add">
+		<rect height="80" stroke-width="0" width="500" x="0" y="180"/>
+		<rect height="240" stroke-width="0" width="310" x="20" y="160"/>
+		<ellipse cx="480" cy="180" rx="20" ry="20"stroke-width="0"/>
+		<ellipse cx="20" cy="380" rx="20" ry="20"stroke-width="0"/>
+		<ellipse cx="20" cy="120" rx="20" ry="20"stroke-width="0"/>
+		<rect height="90" stroke-width="0" width="160" x="0" y="120"/>
+		<path d="m149.999996,169.999998l0,-69.998664l69.999999,69.998664l-69.999999,0z" stroke-width="0"/>
+		<rect height="40" stroke-width="0" width="130" x="20" y="100"/>
+		<rect height="40" stroke-width="0" width="130" x="25" y="110"/>
+		<rect height="55" stroke-width="0" width="205" x="275" y="160"/>
+		<rect height="140" stroke-width="0" width="70" x="0" y="240"/>
+		<ellipse cx="415" cy="395" rx="20" ry="20"stroke-width="0"/>
+		<ellipse cx="415" cy="295" rx="20" ry="20"stroke-width="0"/>
+		<ellipse cx="365" cy="345" rx="20" ry="20"stroke-width="0"/>
+		<ellipse cx="465" cy="345" rx="20" ry="20"stroke-width="0"/>
+		<rect height="40" stroke-width="0" width="100" x="365" y="325"/>
+		<rect height="100" stroke-width="0" width="40" x="395" y="295"/>
 	</g>
 </svg>
 

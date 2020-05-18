@@ -49,7 +49,7 @@ class SelectMenu extends HTMLElement {
                 toTop = true;
             }
         }
-        n.innerHTML = n.innerHTML + "\u2003" + text;
+        n.innerHTML = n.innerHTML + ((n.innerHTML.length > 0) ? "\u2003" : "") + text;
         n.setAttribute("value",value);
         n.setAttribute("class","option")
         n.setAttribute("onclick",`event.target.parentElement.changeValue("${value}",event.target)`);

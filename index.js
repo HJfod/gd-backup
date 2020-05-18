@@ -127,6 +127,9 @@ ipc.on("app", (event, arg) => {
 		case "import-backup":
 			addBackup();
 			break;
+		case "refresh-backup":
+			refreshDataFolder();
+			break;
 		case "browse-for-path":
 			let def = ((process.env.HOME || process.env.USERPROFILE) + "\\AppData\\Local\\GeometryDash");
 			console.log(def);
@@ -193,14 +196,17 @@ function saveToUserdata(key, val) {
 
 function refreshDataFolder() {
 	w_main.webContents.send("app", `{ "action": "clear-data-folder" }`);
+	w_main.webContents.send("app", `{ "action": "loading", "a": "show", "text": "Loading your backup data..." }`);
+
 	fs.readdirSync(path.join(gd_path + '/..'), { withFileTypes: true }).forEach(i => {
 		if (i.name.startsWith("GDSHARE")){
 			w_main.webContents.send("app", `{ "action": "data-file", "name": "${i.name}", "type": "${i.isFile() ? "file" : "dir"}" }`);
 		}
 	});
 	includedBackupDirs.forEach(i => {
-		w_main.webContents.send("app", `{ "action": "data-file", "name": "${i.split("/").pop()}", "type": "dir", "path": "${i}" }`);
+		w_main.webContents.send("app", `{ "action": "data-file", "name": "${i.split("/").pop()}", "type": "diradd", "path": "${i}" }`);
 	});
+	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Backup directory refreshed!" }`);
 }
 
 function addBackup(){
@@ -215,6 +221,11 @@ function addBackup(){
 			}
 		});
 		if (verify){
+			if (includedBackupDirs.includes(bpath)){
+				w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "normal", "text": "This directory has already been added!" }`);
+				console.log("Backup directory already added!");
+				return;
+			}
 			includedBackupDirs.push(bpath);
 			saveToUserdata("includedDirs", includedBackupDirs);
 			w_main.webContents.send("app", `{ "action": "data-file", "name": "${bpath.split("/").pop()}", "type": "dir", "toTop": "true", "path": "${bpath}" }`);

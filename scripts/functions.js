@@ -137,12 +137,8 @@ function checkUpdate() {
     ipcSend({ action: "check-for-updates" });
 }
 
-function newBackup() {
-	ipcSend({ action: "new-backup" });
-}
-
-function importBackup() {
-	ipcSend({ action: "import-backup" });
+function backup(act) {
+	ipcSend({ action: `${act}-backup` });
 }
 
 function changeDateFormat(e) {

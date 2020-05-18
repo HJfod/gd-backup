@@ -107,7 +107,7 @@ window.addEventListener("message", event => {
 				document.querySelector("#backup-select").clear();
 				break;
 			case "data-file":
-				document.querySelector("#backup-select").addOption(args.name, args.name, { svg: (args.type === "dir") ? "#folder-fill" : false, toTop: args.toTop ? true : false });
+				document.querySelector("#backup-select").addOption(args.name, args.name, { svg: (args.type === "dir") ? "#folder-fill" : (args.type === "diradd") ? "#folder-add" : false, toTop: args.toTop ? true : false });
 				break;
 			case "analyzed-level-info":
 				document.getElementById("analyze-level-info").innerHTML = "";
