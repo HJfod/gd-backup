@@ -30,17 +30,22 @@ dTesting: for (let i = 0; i < 5; i++) {
 	}
 }
 
-let required_dir = ['/levels','/data',`/data/userdata.${ext}`,'/data/themes'];
+let required_dir = [
+	{ dir: '/levels', type: 'dir', create: '' },
+	{ dir: '/data', type: 'dir', create: '' },
+	{ dir: `/data/userdata.${ext}`, type: 'file', create: '' },
+	{ dir: '/data/themes', type: 'dir', create: 'themes' }
+];
 for (let i in required_dir){
-	let dir = path.join(__dirname + dLoop + required_dir[i]);
+	let dir = path.join(__dirname + dLoop + required_dir[i].dir);
 	try {
 		fs.accessSync(dir)
 	} catch (err) {
-		if (dir.split("/").pop().indexOf(".") != -1){
+		if (required_dir[i].type === 'file'){
 			fs.writeFileSync(dir, "");
-		}else{
+		}else if (required_dir[i].type === 'dir'){
 			fs.mkdirSync(dir);
-			if (dir.endsWith("\\themes")) createDefaultThemes(dir);
+			if (required_dir[i].create === 'themes') createDefaultThemes(dir);
 		}
 	}
 	console.log(dir);
