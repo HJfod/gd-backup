@@ -28,8 +28,6 @@ https://github.com/HJfod/gd-backup/releases/latest
 
 Additions
 
- * Ability to view level info such as description, length, song, etc. `WIP`
-
  * Ability to make backups `WIP`
 
 UI

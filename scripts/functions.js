@@ -144,8 +144,8 @@ function checkUpdate() {
     ipcSend({ action: "check-for-updates" });
 }
 
-function backup(act) {
-	ipcSend({ action: `${act}-backup` });
+function backup(act, ext = false) {
+	ipcSend({ action: `${act}-backup`, ext: ext });
 }
 
 function changeDateFormat(e) {

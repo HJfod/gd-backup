@@ -115,7 +115,7 @@ window.addEventListener("message", event => {
 				}
 				break;
 			case "data-file":
-				document.querySelector("#backup-select").addOption(args.name, args.name, { svg: (args.type === "dir") ? "#folder-fill" : (args.type === "diradd") ? "#folder-add" : false, toTop: args.toTop ? true : false });
+				document.querySelector("#backup-select").addOption(args.name, args.path ? args.path : args.name, { svg: (args.type === "dir") ? "#folder-fill" : (args.type === "diradd") ? "#folder-add" : false, toTop: args.toTop ? true : false });
 				break;
 			case "analyzed-level-info":
 				document.getElementById("analyze-level-info").innerHTML = "";
@@ -163,9 +163,6 @@ window.addEventListener("message", event => {
 					lvlGetInput.addOption(i,i);
 				});
 				document.querySelector("#level-amount").innerHTML = "Level count: " + level_list.length;
-				break;
-			case "gd-is-running":
-
 				break;
         }
     }

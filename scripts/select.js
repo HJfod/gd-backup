@@ -59,7 +59,7 @@ class SelectMenu extends HTMLElement {
                     let b = document.createElement("button");
                     b.innerHTML = i.text;
                     b.setAttribute("class","mini-option");
-                    b.setAttribute("onclick",`event.stopPropagation(); window["${i.act.split("(").shift()}"]( ${i.act.split("(").pop().replace(/LEVELNAME/g,`'${text}'`).slice(0,-1)} )`);
+                    b.setAttribute("onclick",`event.stopPropagation(); window["${i.act.split("(").shift()}"]( ${i.act.split("(").pop().replace(/BACKUPNAME/g,`'${value}'`).replace(/LEVELNAME/g,`'${text}'`).slice(0,-1)} )`);
                     b.style.display = "none";
 
                     n.setAttribute("onmouseenter",`event.target.querySelectorAll("button").forEach(i => i.style.display="initial")`);

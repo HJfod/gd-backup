@@ -166,6 +166,9 @@ ipc.on("app", (event, arg) => {
 		case "refresh-backup":
 			refreshDataFolder();
 			break;
+		case "switch-backup":
+			switchToBackup(arg.ext);
+			break;
 		case "browse-for-path":
 			let def = ((process.env.HOME || process.env.USERPROFILE) + "\\AppData\\Local\\GeometryDash");
 			console.log(def);
@@ -258,7 +261,11 @@ function refreshDataFolder() {
 	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Backup directory refreshed!" }`);
 }
 
-function addBackup(){
+function switchToBackup(to) {
+	console.log(to);
+}
+
+function addBackup() {
 	let def = ((process.env.HOME || process.env.USERPROFILE) + "\\AppData\\Local\\GeometryDash");
 	let bpath = dialog.showOpenDialogSync({ title: "Select directory", defaultPath: def, properties: ["openDirectory","showHiddenFiles"] });
 	if (bpath){
@@ -277,7 +284,7 @@ function addBackup(){
 			}
 			includedBackupDirs.push(bpath);
 			saveToUserdata("includedDirs", includedBackupDirs);
-			w_main.webContents.send("app", `{ "action": "data-file", "name": "${bpath.split("/").pop()}", "type": "dir", "toTop": "true", "path": "${bpath}" }`);
+			w_main.webContents.send("app", `{ "action": "data-file", "name": "${bpath.split("/").pop()}", "path": "${bpath}", "type": "diradd", "toTop": "true", "path": "${bpath}" }`);
 			console.log("Added backup directory!");
 		}else{
 			console.log("Picked folder does not appear to contain CCLocalLevels.");
