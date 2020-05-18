@@ -9,6 +9,10 @@
 	--c-link:	#069;					/* from --c-sec */
 	--c-sec:	#baf;
 	--c-disable:#ccc;					/* from --c-text */
+	--c-status:	rgba(0,0,0,0.8);		/* constant */
+	--c-statusb:#ccc;					/* constant */
+	--c-statush:#aaa;					/* constant */
+	--c-statust:#000;					/* constant */
 	--t-size:	13px;
 	--i-size:	3px;
 	--d-size:	60px;
@@ -286,7 +290,7 @@ main-content {
 	height: 100%;
 	top: 0px;
 	left: 0px;
-	background-color: rgba(0,0,0,0.7);
+	background-color: var(--c-status);
 	position: absolute;
 	z-index: 20;
 }
@@ -297,31 +301,64 @@ main-content {
 	text-decoration: underline;
 }
 
-.loading-text {
+.loading-text-contain {
+	background-color: rgba(0,0,0,0);
+	vertical-align: bottom;
+	display: inline-block;
 	position: absolute;
-	top: calc( 50% - var(--l-rad) * 1.7 );
-	left: 50%;
-	transform: translateX(-50%);
+	height: calc( 50% - var(--l-rad) * 1.2 );
+	top: 0px;
 	width: 100%;
 	text-align: center;
-	color: var(--c-textl);
-	font-size: calc( var(--l-rad) / 2 );
 	user-select: none;
 }
 
+.loading-text {
+	color: var(--c-textl);
+	font-size: calc( var(--l-rad) / 2 );
+	display: table-cell;
+	vertical-align: bottom;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	margin-top: auto;
+	width: calc( 100% - var(--pad) * 2 );
+	bottom: 0;
+}
+
 .loader-svg {
-	margin: calc( 0px - ( var(--l-rad) / 2 ) - var(--l-size) );
 	width: var(--l-rad);
 	height: var(--l-rad);
-	top: 50%;
+	top: calc( 50% - var(--l-rad) / 2 );
 	left: 50%;
+	transform: translateX(-50%);
 	position: absolute;
 	display: fixed;
 }
 
 .loader-button {
+	text-align: center;
+	color: var(--c-statust);
+	background-color: var(--c-statusb);
+	font-size: calc( var(--l-rad) / 3 );
+	user-select: none;
+	padding: 0px;
+	height: calc( var(--l-rad) / 1.5 );
+	padding-left: var(--pad);
+	padding-right: var(--pad);
+	border: none;
+	width: 200%;
+	border-radius: calc( var(--l-rad) / 3 );
+	transform: translateX(-25%);
+}
+
+.loader-button:not(:disabled):hover {
+	background-color: var(--c-statush);
+}
+
+.loader-buttons {
 	position: absolute;
-	top: calc( 50% + var(--l-rad) * 1.5 );
+	top: calc( 50% + var(--l-rad) * 1.2 );
 	left: 50%;
 	transform: translateX(-50%);
 	text-align: center;
@@ -329,6 +366,7 @@ main-content {
 	font-size: calc( var(--l-rad) / 3 );
 	user-select: none;
 	border-radius: 0%;
+	background-color: rgba(0,0,0,0);
 }
 
 .loader-close {
@@ -341,7 +379,7 @@ main-content {
 	padding: 0px;
 }
 
-.loader-close:hover {
+.loader-close:not(:disabled):hover {
 	background-color: rgba(0,0,0,0);
 	color: rgba(255,255,255,.5);
 }

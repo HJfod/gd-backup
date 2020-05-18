@@ -77,6 +77,7 @@ function hexToRgb(hex) {
 window.addEventListener("message", event => {
     const message = event.data;
     if (message.protocol === "from-app") {
+		console.log(message.data);
         let args = JSON.parse(message.data);
         switch (args.action) {
             case "return":
@@ -138,6 +139,7 @@ window.addEventListener("message", event => {
 				}else{
 					loading.querySelector("#l-c").style.display = "none";
 				}
+				loading.querySelector("#l-b").innerHTML = "";
 				if (args.a === "show"){
 					loading.style.display = "initial";
 					loading.querySelector(".loading-text").innerHTML = args.text;
@@ -145,7 +147,6 @@ window.addEventListener("message", event => {
 					loading.querySelector("#l-no").style.display = "none";
 					loading.querySelector("#l-warn").style.display = "none";
 					loading.querySelector("#l-circle").style.display = "initial";
-					loading.querySelector("#l-b").style.display = "none";
 				}else if (args.a === "error" || "success" || "warning"){
 					showMsg(args.a,args.lgt,args.text,(args.button ? args.button : false));
 				}else{

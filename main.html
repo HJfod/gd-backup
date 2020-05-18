@@ -99,7 +99,7 @@
 
 	<div data-id="analyze">
 		
-		<button id="analyze-back">Back</button>
+		<button id="analyze-back">&#x1f804;</button>
 
 		<br><br>
 
@@ -195,12 +195,14 @@
 </footer>
 
 <div class="status-full">
-	<text class="loading-text"></text>
+	<div class="loading-text-contain">
+		<text class="loading-text"></text>
+	</div>
 	<div class="loader" id="l-circle"></div>
 	<img class="loader-svg" src="resources/yes.svg" id="l-yes"></img>
 	<img class="loader-svg" src="resources/no.svg" id="l-no"></img>
 	<img class="loader-svg" src="resources/warning.svg" id="l-warn"></img>
-	<button class="loader-button" id="l-b"></button>
+	<div class="loader-buttons" id="l-b"></div>
 	<button class="loader-close" id="l-c" onclick="loading.style.display = 'none'">&#x2573;</button>
 </div>
 

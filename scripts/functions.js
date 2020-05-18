@@ -76,11 +76,18 @@ function showMsg(type, lgt, txt, button) {
             break;
     }
     if (button){
-        loading.querySelector("#l-b").style.display = "initial";
-        loading.querySelector("#l-b").innerHTML = button.text;
-        loading.querySelector("#l-b").setAttribute("onclick",button.action);
+		console.log(button);
+		button.forEach(i => {
+			let n = document.createElement("button");
+			n.innerHTML = i.text;
+			n.setAttribute("onclick",i.action);
+			console.log(i.action);
+			n.setAttribute("class","loader-button");
+			loading.querySelector("#l-b").appendChild(n);
+			loading.querySelector("#l-b").innerHTML += "<br>";
+		});
     }else{
-        loading.querySelector("#l-b").style.display = "none";
+        loading.querySelector("#l-b").innerHTML = "";
     }
     loading.style.display = "initial";
     loading.querySelector(".loading-text").innerHTML = txt;

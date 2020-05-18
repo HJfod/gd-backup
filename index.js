@@ -126,7 +126,7 @@ ipc.on("app", (event, arg) => {
 			saveToUserdata("theme",arg.theme);
 			break;
 		case "new-backup":
-			makeNewBackup();
+			makeNewBackup(arg.force ? arg.force : false);
 			break;
 		case "import-backup":
 			addBackup();
@@ -166,9 +166,22 @@ ipc.on("app", (event, arg) => {
 							console.log("Up to date!");
 						}else{
 							if (Number(new_v.replace(/\./g,"")) > Number(app_v.replace(/\./g,""))){
-								w_main.webContents.send("app", `{ "action": "loading", "a": "warning", "lgt": "infinite", "text": "New version found (v${new_v})", "button": { "text": "Get update", "action": "openLink('https://github.com/HJfod/gd-backup/releases/latest')" } }`);
+								w_main.webContents.send("app", `{ 
+									"action": "loading", 
+									"a": "warning", 
+									"lgt": "infinite", 
+									"text": "New version found (v${new_v})", 
+									"button": [
+										{ "text": "Get update", "action": "openLink('https://github.com/HJfod/gd-backup/releases/latest')" } 
+									]
+								}`);
 							}else{
-								w_main.webContents.send("app", `{ "action": "loading", "a": "warning", "lgt": "long", "text": "You are using a newer version than last stable release (v${new_v})" }`);
+								w_main.webContents.send("app", `{ 
+									"action": "loading", 
+									"a": "warning", 
+									"lgt": "long", 
+									"text": "You are using a newer version than last stable release (v${new_v})" 
+								}`);
 							}
 							console.log(`Version ${new_v} found, current: ${app_v}!`);
 						}
@@ -241,7 +254,7 @@ function addBackup(){
 	}
 }
 
-function makeNewBackup() {
+function makeNewBackup(force) {
 	let time = new Date();
 	time = { m: time.getMonth()+1, d: time.getDate(), y: time.getFullYear() };
 	let gpath = path.join(gd_path + '/..').replace(/\\/g,"/");
@@ -249,9 +262,23 @@ function makeNewBackup() {
 
 	try {
 		fs.accessSync(`${gpath}/${fname}`);
-		console.log("Backup on this date already exists");
-		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Backup on this date already exists!" }`);
-		return;			// change this to just replace or make a new backup later
+		if (force === "replace") {
+			console.log("ok,replacing");
+		}else if (force === "new"){
+			console.log("ok, making new");
+		}else{
+			w_main.webContents.send("app", `{ 
+				"action": "loading", 
+				"a": "warning", 
+				"lgt": "infinite", 
+				"text": "A backup on this date already exists. Would you like to replace the old file or create a new one?", 
+				"button": [
+					{ "text": "Replace", "action": "ipcSend({ action: 'new-backup', force: 'replace' })" },
+					{ "text": "New", "action": "ipcSend({ action: 'new-backup', force: 'new' })" }
+				] }
+			`);
+			return;
+		}
 	} catch (err) {
 		fs.mkdirSync(`${gpath}/${fname}`);
 		console.log(`Made new folder ${fname}`);
