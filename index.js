@@ -2,7 +2,8 @@ const { BrowserWindow, app, shell, dialog } = require("electron");
 const ipc = require("electron").ipcMain;
 const path = require("path");
 const fs = require("fs");
-const zlib = require("zlib")
+const zlib = require("zlib");
+const exec = require('child_process').exec;
 
 // require(path.join(__dirname,"scripts/save.js"));
 
@@ -30,12 +31,27 @@ dTesting: for (let i = 0; i < 5; i++) {
 	}
 }
 
+const isRunning = (query, cb) => {
+    let platform = process.platform;
+    let cmd = '';
+    switch (platform) {
+        case 'win32' : cmd = `tasklist`; break;
+        case 'darwin' : cmd = `ps -ax | grep ${query}`; break;
+        case 'linux' : cmd = `ps -A`; break;
+        default: break;
+    }
+    exec(cmd, (err, stdout, stderr) => {
+        cb(stdout.toLowerCase().indexOf(query.toLowerCase()) > -1);
+    });
+}
+
 let required_dir = [
 	{ dir: '/levels', type: 'dir', create: '' },
 	{ dir: '/data', type: 'dir', create: '' },
 	{ dir: `/data/userdata.${ext}`, type: 'file', create: '' },
 	{ dir: '/data/themes', type: 'dir', create: 'themes' }
 ];
+
 for (let i in required_dir){
 	let dir = path.join(__dirname + dLoop + required_dir[i].dir);
 	try {
@@ -80,6 +96,8 @@ ipc.on("app", (event, arg) => {
 			validateGDPath();
 			break;
 		case "init":
+			// w_main.webContents.send("app", `{ "action": "gd-is-running" }`
+
 			let p = (process.env.HOME || process.env.USERPROFILE) + "/AppData/Local/GeometryDash/CCLocalLevels.dat";
 			p = p.replace(/\\/g,"/");
 			w_main.webContents.send("app", `{ "action": "gd-path", "path": "${p}" }`);
@@ -92,10 +110,19 @@ ipc.on("app", (event, arg) => {
 			if (settings.includedDirs){
 				includedBackupDirs = settings.includedDirs;
 			}
-			if (settings.gdpath) {
-				gd_path = settings.gdpath;
-				validateGDPath();
-			}
+			isRunning('GeometryDash.exe', status => {
+				if (!status) {
+					if (settings.gdpath) {
+						gd_path = settings.gdpath;
+						validateGDPath();
+					}
+				} else {
+					w_main.webContents.send("app", `{ 
+						"action": "force-app-close",
+						"text": "You need to close GD in order for this app to work."
+					}`);
+				}
+			});
 			if (settings.dateFormat){
 				w_main.webContents.send("app", `{ "action": "date-format", "f": ${settings.dateFormat} }`);
 			}

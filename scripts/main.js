@@ -133,6 +133,10 @@ window.addEventListener("message", event => {
 					}
 				});
 				break;
+			case "force-app-close":
+				alert(args.text);
+				window.close();
+				break;
 			case "loading":
 				if (args.lgt === 'infinite'){
 					loading.querySelector("#l-c").style.display = "initial";
@@ -159,6 +163,10 @@ window.addEventListener("message", event => {
 					lvlGetInput.addOption(i,i);
 				});
 				document.querySelector("#level-amount").innerHTML = "Level count: " + level_list.length;
+				break;
+			case "gd-is-running":
+
+				break;
         }
     }
 });
