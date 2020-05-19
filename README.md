@@ -28,16 +28,13 @@ https://github.com/HJfod/gd-backup/releases/latest
 
 Additions
 
- * Ability to make backups `WIP`
-
-UI
-
- * Proper help dialogs
+ * Ability to view backup info such as stats & levels
 
 ## Dependencies:
 
  * electron v8.2.5
  * electron-packager v14.2.1
+ * rimraf v3.0.2
 
 ## Contribution:
 
