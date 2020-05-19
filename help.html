@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'">
+        <script src="scripts/help.js" defer></script>
+        <link rel="stylesheet" href="scripts/style.css"/>
+        <title>Help</title>
+    </head>
+    
+    <body>
+        <main-content id="main">
+
+            <button class="section" onclick="section('general')">General</button>
+            <div data-section="general" hidden>
+                
+                <br>
+
+                <text><b>You can NOT have Geometry Dash open while you are using the app.</b></text>
+                <br><br>
+                <text class="link" onclick="folder('resources/help.txt')">Open old help file</text>
+                <br><br>
+                <text>If you find an issue, </text>
+                <text class="link" onclick="openLink('https://github.com/HJfod/gd-backup/issues')">please file a bug report on Github</text>
+                
+                <br><br>
+                
+            </div>
+
+            <button class="section" onclick="section('path')">Setting CCLocalLevels path</button>
+            <div data-section="path" hidden>
+                
+                <br>
+
+                <text>For the app to work, you need to set the path of your CCLocalLevels file.</text>
+                <br><br>
+                <text>Most likely it will have been set for you already, but if it fails to load, locate your CCLocalLevels file and try again.</text>
+                <br><br>
+                <text>To set the path, click <emp-text>set</emp-text>. <emp-text>Browse</emp-text> let's you browse for the path.</text>
+                <br><br>
+                <text>The path has to lead to your <emp-text>CCLocalLevels.dat</emp-text> file.</text>
+                
+                <br><br>
+                
+            </div>
+
+            <button class="section" onclick="section('backup')">Backups</button>
+            <div data-section="backup" hidden>
+                
+                <br>
+
+                <text>Backups are the same as saving your data in GD, except that the files are saved locally and you can have multiple at the same time.</text>
+                <br><br>
+                <text>To create a backup, click <emp-text>Make a new backup</emp-text>. This will create a backup of your current game files.</text>
+                <br><br>
+                <text>If you have made backups before, you can add them by clicking <emp-text>Import</emp-text>. External backups can be located anywhere on your computer.</text>
+                <br><br>
+                <text>
+                    To load a backup, hover over the backup option and click <emp-text>Switch</emp-text>. The app will ask you if you'd like to save your current GD progress.
+                    Press <emp-text>Save stats</emp-text> to make a new backup out of your current GD data, or <emp-text>Discard</emp-text> to replace your current GD data with the backup.
+                </text>
+                <br><br>
+                <text>Click <emp-text>Refresh</emp-text> to reload your backup folders.</text>
+                <br><br>
+                <text><i>The ability to view info about backups, such as user stats and levels, will be added later.</i></text>
+
+                <br><br>
+                
+            </div>
+
+            <button class="section" onclick="section('import')">Importing levels</button>
+            <div data-section="import" hidden>
+                
+                <br>
+
+                <text>To import a level, click to select it or drop the file onto the import file area.</text>
+                <br><br>
+                <text>Clicking <emp-text>import</emp-text> puts the level at the top of your GD levels.</text>
+                <br><br>
+                <text>Click <emp-text>Analyze</emp-text> to view info about the level such as creator, object count, etc.</text>
+                
+                <br><br>
+                
+            </div>
+
+            <button class="section" onclick="section('export')">Exporting levels</button>
+            <div data-section="export" hidden>
+                
+                <br>
+
+                <text>To export a level, select it from the list. You can use search to find it.</text>
+                <br><br>
+                <text>By default, levels are exported to the <emp-text>levels</emp-text> folder located in the app's files. You can find the folder by scrolling down and clicking "Open levels folder".</text>
+                <br><br>
+                <text>If you'd like to export to some other location, uncheck <emp-text>Export to default location</emp-text> and then browse to select your export location.</text>
+                <br><br>
+                <text>You can also export multiple levels by just selecting multiple ones.</text>
+                <br><br>
+                <text>When hovering a level in the list, you can see a button that says <emp-text>details</emp-text>. Click it to view info about the level such as creator, object count, etc.</text>
+
+                <br><br>
+                
+            </div>
+
+        </main-content>
+    </body>
+</html>

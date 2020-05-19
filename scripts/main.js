@@ -69,7 +69,11 @@ function lighten(hex, lum) {	// thanks sitepoint.com
 
 function hexToRgb(hex) {
 	hex = hex.replace("#","");
-	if (hex.length < 4) h = hex.split(""); hex = ""; h.forEach(e => hex += e.repeat(2));
+	if (hex.length < 4){
+		let h = hex.split("");
+		hex = "";
+		h.forEach(e => hex += e.repeat(2));
+	}
 	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 	return result ? `${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)}` : null;
 }  
@@ -77,7 +81,6 @@ function hexToRgb(hex) {
 window.addEventListener("message", event => {
     const message = event.data;
     if (message.protocol === "from-app") {
-		console.log(message.data);
         let args = JSON.parse(message.data);
         switch (args.action) {
             case "return":
@@ -96,6 +99,7 @@ window.addEventListener("message", event => {
 				document.getElementById("edit-path").style.display = "initial";
 				document.querySelector(`button[onclick="tab('import')"]`).removeAttribute("disabled");
 				document.querySelector(`button[onclick="tab('export')"]`).removeAttribute("disabled");
+				document.querySelector(`#backup-tools`).querySelectorAll(`button`).forEach(i => i.removeAttribute("disabled"));
 				break;
 			case "add-theme":
 				document.querySelector("#theme-select").addOption(args.cont.name,themes.length);
@@ -158,6 +162,7 @@ window.addEventListener("message", event => {
 				}
 				break;
 			case "level-list":
+				lvlGetInput.clear();
 				level_list = args.list.split(",");
 				level_list.forEach(i => {
 					lvlGetInput.addOption(i,i);

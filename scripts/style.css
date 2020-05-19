@@ -46,7 +46,7 @@ input {
 	background-color: var(--c-dark);
 	font-size: var(--t-size);
 	padding: var(--pad);
-	width: calc( 100% - var(--pad) * 4 );
+	width: calc( 100% - var(--pad) * 2 );
 	border: none;
 	border-radius: var(--corner);
 	transition-duration: var(--trans);
@@ -104,7 +104,7 @@ input[type="checkbox"] {
 	border-radius: var(--corner);
     transition-duration: var(--trans);
 	display: flex;
-	width: calc( 100% - var(--pad) * 4 );
+	width: calc( 100% - var(--pad) * 2 );
 	height: var(--d-size);
 }
 
@@ -142,14 +142,14 @@ input[type="checkbox"] {
 	background-color: var(--c-disable);
 	height: 1px;
 	opacity: 0.5;
-	width: calc( 100% - var(--pad) * 2 );
+	width: 100%;
 }
 
 select-menu {
 	background-color: var(--c-dark);
 	font-size: var(--t-size);
 	padding: var(--pad);
-	width: calc( 100% - var(--pad) * 4 );
+	width: calc( 100% - var(--pad) * 2 );
 	display: block;
 	border: none;
 	border-radius: var(--corner);
@@ -205,24 +205,25 @@ select {
 	background-color: var(--c-dark);
 	font-size: var(--t-size);
 	padding: var(--pad);
-	width: calc( 100% - var(--pad) * 4 );
+	width: calc( 100% - var(--pad) * 2 );
 	border: none;
 	border-radius: var(--corner);
     transition-duration: var(--trans);
 }
 
 main-content {
-	width: 100%;
+	width: calc( 100% - var(--pad) * 2 );
 	top: 0px;
 	left: 0px;
 	height: calc( 100% - var(--n-size) );
 	position: absolute;
+	overflow-x: hidden;
 	overflow-y: auto;
 	margin: var(--pad);
 }
 
 .section {
-	width: calc( 100% - var(--pad) * 2 );
+	width: 100%;
 }
 
 .nav-bar {
@@ -268,6 +269,11 @@ main-content {
 	margin-top: calc( 0px - var(--pad) * 2 );
 	pointer-events: none;
 	transition-duration: var(--trans);
+}
+
+.nav-button:disabled .svg {
+	fill: var(--c-disable);
+	stroke: var(--c-disable);
 }
 
 .svg-folder {
@@ -411,6 +417,10 @@ main-content {
 .level-info-text {
 	font-size: calc( var(--t-size) * 1.2 );
 	padding: var(--pad);
+}
+
+emp-text {
+	color: var(--c-sec);
 }
 
 @keyframes spin {

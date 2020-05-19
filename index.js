@@ -11,6 +11,7 @@ const rimraf = require("rimraf");
 const dim = { w: 400, h: 550 };
 
 let w_main;
+let w_sett = null;
 let gd_path;
 
 let levels = []
@@ -21,6 +22,21 @@ let thext = "gdbt";
 let themeList = [];
 let dateFormat = false;
 let includedBackupDirs = [];
+let settSection = "";
+let settTheme = "";
+
+const windowSett = {
+	frame: true, 
+	icon: path.join(__dirname,"resources/icon-env.ico"), 
+	height: dim.h, 
+	width: dim.w, 
+	webPreferences: { 
+		preload: path.join(__dirname, "scripts/preload.js"), 
+		nodeIntegration: false, 
+		enableRemoteModule: false, 
+		contextIsolation: true
+	} 
+}
 
 let dLoop = "";
 dTesting: for (let i = 0; i < 5; i++) {
@@ -75,11 +91,11 @@ if (readset.length > 1) {
 }
 
 app.on("ready", () => {
-	w_main = new BrowserWindow({frame: true, icon: path.join(__dirname,"resources/icon-env.ico"), height: dim.h, width: dim.w, webPreferences: { preload: path.join(__dirname, "scripts/preload.js"), nodeIntegration: false, enableRemoteModule: false, contextIsolation: true } });
+	w_main = new BrowserWindow(windowSett);
 	
 	w_main.loadFile("main.html");
 	
-	//w_main.setMenu(null);
+	w_main.setMenu(null);
 	
 	w_main.on("closed", () => {
 		app.quit();
@@ -157,6 +173,10 @@ ipc.on("app", (event, arg) => {
 			break;
 		case "change-theme":
 			saveToUserdata("theme",arg.theme);
+			settTheme = arg.theme;
+			if (w_sett) {
+				w_sett.webContents.send("app", `{ "action": "switch-theme", "to": ${fs.readFileSync(path.join(__dirname + dLoop, "data/themes", arg.theme + "." + thext))} }`);
+			}
 			break;
 		case "new-backup":
 			makeNewBackup(arg.force ? arg.force : false);
@@ -169,6 +189,29 @@ ipc.on("app", (event, arg) => {
 			break;
 		case "switch-backup":
 			switchToBackup(arg.ext, arg.force ? arg.force : false);
+			break;
+		case "help-init":
+			if (w_sett){
+				w_sett.webContents.send("app", `{ "action": "help-init", "section": "${settSection}" }`);
+				if (settTheme) {
+					w_sett.webContents.send("app", `{ "action": "switch-theme", "to": ${fs.readFileSync(path.join(__dirname + dLoop, "data/themes", settTheme + "." + thext))} }`);
+				}
+			}
+			break;
+		case "open-help":
+			if (w_sett === null){
+				w_sett = new BrowserWindow(windowSett);
+				w_sett.loadFile("help.html");
+	
+				w_sett.setMenu(null);
+
+				w_sett.on("closed", () => {
+					w_sett = null;
+				});
+			} else if (arg.section) {
+				w_sett.webContents.send("app", ` { "action": "section", "to": "${arg.section}" } `);
+			}
+			settSection = arg.section;
 			break;
 		case "browse-for-path":
 			let def = ((process.env.HOME || process.env.USERPROFILE) + "\\AppData\\Local\\GeometryDash");
@@ -331,6 +374,7 @@ function switchToBackup(to, force = false) {
 
 		console.log(`Switched to ${to}!`);
 		w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Switched to ${to}!" }`);
+		validateGDPath();
 	} catch (err) {
 		console.log(err);
 		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "normal", "text": "Something went wrong (${err})" }`);

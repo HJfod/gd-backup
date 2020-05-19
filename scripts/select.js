@@ -29,6 +29,7 @@ class SelectMenu extends HTMLElement {
         this.querySelectorAll("button").forEach(i => {
             i.remove();
         });
+        this.querySelector("option").removeAttribute("hidden");
     }
 
     addOption(text, value, extra = null) {

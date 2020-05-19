@@ -5,6 +5,8 @@ function changeGDPath() {
 	document.getElementById("edit-path").style.display = "none";
 	document.querySelector(`button[onclick="tab('import')"]`).setAttribute("disabled","");
 	document.querySelector(`button[onclick="tab('export')"]`).setAttribute("disabled","");
+	document.querySelector(`#backup-tools`).querySelectorAll(`button`).forEach(i => i.setAttribute("disabled",""));
+	document.querySelector("#backup-select").clear();
 }
 
 function getGDPath() {
