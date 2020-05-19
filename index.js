@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const zlib = require("zlib");
 const exec = require('child_process').exec;
+const rimraf = require("rimraf");
 
 // require(path.join(__dirname,"scripts/save.js"));
 
@@ -167,7 +168,7 @@ ipc.on("app", (event, arg) => {
 			refreshDataFolder();
 			break;
 		case "switch-backup":
-			switchToBackup(arg.ext);
+			switchToBackup(arg.ext, arg.force ? arg.force : false);
 			break;
 		case "browse-for-path":
 			let def = ((process.env.HOME || process.env.USERPROFILE) + "\\AppData\\Local\\GeometryDash");
@@ -261,10 +262,6 @@ function refreshDataFolder() {
 	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Backup directory refreshed!" }`);
 }
 
-function switchToBackup(to) {
-	console.log(to);
-}
-
 function addBackup() {
 	let def = ((process.env.HOME || process.env.USERPROFILE) + "\\AppData\\Local\\GeometryDash");
 	let bpath = dialog.showOpenDialogSync({ title: "Select directory", defaultPath: def, properties: ["openDirectory","showHiddenFiles"] });
@@ -293,18 +290,94 @@ function addBackup() {
 	}
 }
 
+function switchToBackup(to, force = false) {
+	if (!force){
+		w_main.webContents.send("app", `{ 
+			"action": "loading", 
+			"a": "warning", 
+			"lgt": "infinite", 
+			"text": "Would you like to take a backup of your current stats before switching?", 
+			"button": [
+				{ "text": "Save stats", "action": "ipcSend({ action: 'switch-backup', ext: '${to}', force: 'save' })" },
+				{ "text": "Discard", "action": "ipcSend({ action: 'switch-backup', ext: '${to}', force: 'discard' })" }
+			] }
+		`);
+		console.log("Do you want to make a backup of current files?");
+		return;
+	}
+
+	if (force === "save"){
+		makeNewBackup("new");
+	}
+
+	let gpth = path.join(gd_path + '/..').replace(/\\/g,"/");
+	let pth = "";
+	if (to.toLowerCase().startsWith("gdshare")){
+		pth = `${gpth}/${to}`;
+	} else {
+		pth = to;
+	}
+	console.log(pth);
+	try {
+		fs.accessSync(pth);
+
+		["CCLocalLevels.dat","CCLocalLevels2.dat","CCGameManager.dat","CCGameManager2.dat"].forEach(i => {
+			fs.unlinkSync(`${gpth}/${i}`);
+			console.log(`Removed ${i}!`);
+
+			fs.copyFileSync(`${pth}/${i}`, `${gpth}/${i}`);
+			console.log(`Copied new ${i}!`);
+		});
+
+		console.log(`Switched to ${to}!`);
+		w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Switched to ${to}!" }`);
+	} catch (err) {
+		console.log(err);
+		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "normal", "text": "Something went wrong (${err})" }`);
+	}
+}
+
+function makeBackup(path, name) {
+	console.log(name);
+	fs.mkdirSync(`${path}/${name}`);
+	console.log(`Made new folder ${name}`);
+	["CCLocalLevels.dat","CCLocalLevels2.dat","CCGameManager.dat","CCGameManager2.dat"].forEach(i => {
+		fs.copyFileSync(`${path}/${i}`, `${path}/${name}/${i}`);
+	});
+	console.log(`Copied all files over to backup!`);
+	w_main.webContents.send("app", `{ "action": "data-file", "name": "${name}", "type": "dir", "toTop": "true" }`);
+	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Created backup!" }`);
+}
+
+function addZero(i) {
+	if (i < 10) {
+	  i = "0" + i;
+	}
+	return i;
+  }
+
 function makeNewBackup(force) {
 	let time = new Date();
 	time = { m: time.getMonth()+1, d: time.getDate(), y: time.getFullYear() };
 	let gpath = path.join(gd_path + '/..').replace(/\\/g,"/");
-	let fname = `GDSHARE-${dateFormat ? time.m : time.d}${dateFormat ? "/" : "."}${dateFormat ? time.d : time.m}${dateFormat ? "/" : "."}${time.y}`;
+	let fname = `GDSHARE-${dateFormat ? time.m : time.d}${dateFormat ? "." : "."}${dateFormat ? time.d : time.m}${dateFormat ? "." : "."}${time.y}`;
 
 	try {
 		fs.accessSync(`${gpath}/${fname}`);
 		if (force === "replace") {
 			console.log("ok,replacing");
+
+			rimraf.sync(`${gpath}/${fname}`);
+			console.log("removed original dir");
+			makeBackup(gpath,fname);
 		}else if (force === "new"){
 			console.log("ok, making new");
+			
+			let t = new Date();
+			let n = `${fname}-${addZero(t.getHours())}.${addZero(t.getMinutes())}.${addZero(t.getSeconds())}`;
+
+			makeBackup(gpath,n);
+			return;
 		}else{
 			w_main.webContents.send("app", `{ 
 				"action": "loading", 
@@ -319,13 +392,7 @@ function makeNewBackup(force) {
 			return;
 		}
 	} catch (err) {
-		fs.mkdirSync(`${gpath}/${fname}`);
-		console.log(`Made new folder ${fname}`);
-		["CCLocalLevels.dat","CCLocalLevels2.dat","CCGameManager.dat","CCGameManager2.dat"].forEach(i => {
-			fs.copyFileSync(`${gpath}/${i}`, `${gpath}/${fname}/${i}`);
-		});
-		console.log(`Copied all files over to backup!`);
-		w_main.webContents.send("app", `{ "action": "data-file", "name": "${fname}", "type": "dir", "toTop": "true" }`);
+		makeBackup(gpath,fname);
 	}
 }
 

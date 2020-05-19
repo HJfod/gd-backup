@@ -49,7 +49,8 @@ class SelectMenu extends HTMLElement {
                 toTop = true;
             }
         }
-        n.innerHTML = n.innerHTML + ((n.innerHTML.length > 0) ? "\u2003" : "") + text;
+        let txt = text.startsWith("GDSHARE") ? text.substring(text.indexOf("-") + 1) : text;
+        n.innerHTML = n.innerHTML + ((n.innerHTML.length > 0) ? "\u2003" : "") + txt;
         n.setAttribute("value",value);
         n.setAttribute("class","option")
         n.setAttribute("onclick",`event.target.parentElement.changeValue("${value}",event.target)`);

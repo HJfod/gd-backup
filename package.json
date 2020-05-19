@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/HJfod/gd-backup#readme",
   "dependencies": {
-    "electron": "^8.2.5"
+    "electron": "^8.2.5",
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "electron-packager": "^14.2.1"
