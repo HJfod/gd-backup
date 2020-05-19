@@ -27,7 +27,7 @@ let settTheme = "";
 
 const windowSett = {
 	frame: true, 
-	icon: path.join(__dirname,"resources/icon-env.ico"), 
+	icon: path.join(__dirname,"resources/icon-2.ico"), 
 	height: dim.h, 
 	width: dim.w, 
 	webPreferences: { 
