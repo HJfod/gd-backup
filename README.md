@@ -30,6 +30,10 @@ Additions
 
  * Ability to view backup info such as stats & levels
 
+ * Ability to set backup save directory
+
+ * Automatic backups and updates
+
 ## Dependencies:
 
  * electron v8.2.5
