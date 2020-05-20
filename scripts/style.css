@@ -449,3 +449,10 @@ emp-text {
 	border-radius: 0px;
 	cursor: pointer;
 }
+
+.notification {
+	width: var(--t-size);
+	margin-left: calc( var(--pad) / 2 );
+	margin-right: calc( var(--pad) / 2 );
+	padding: 0px;
+}

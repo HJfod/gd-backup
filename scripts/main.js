@@ -10,6 +10,7 @@ const html = document.getElementsByTagName('html')[0];
 let level_list = [];
 let version;
 let themes = [];
+let splashTimeOut;
 
 loading.style.display = "none";
 
@@ -79,7 +80,8 @@ function hexToRgb(hex) {
 }  
 
 window.addEventListener("message", event => {
-    const message = event.data;
+	const message = event.data;
+	console.log(message.data);
     if (message.protocol === "from-app") {
         let args = JSON.parse(message.data);
         switch (args.action) {
@@ -141,6 +143,20 @@ window.addEventListener("message", event => {
 				alert(args.text);
 				window.close();
 				break;
+			case "notification":
+				args.place.forEach(i => {
+					let s = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
+						u = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+					u.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#notification');
+					s.appendChild(u);
+					s.setAttribute("class","notification");
+					s.setAttribute("viewBox","0 0 500 500");
+					s.setAttribute("data-notif",args.id);
+					
+					document.querySelector(i).appendChild(s);
+				});
+				document.querySelector(args.place[args.place.length-1]).setAttribute("onmouseup","document.querySelectorAll('[data-notif]').forEach(i => i.remove())");
+				break;
 			case "loading":
 				if (args.lgt === 'infinite'){
 					loading.querySelector("#l-c").style.display = "initial";
@@ -195,3 +211,4 @@ document.querySelectorAll("select").forEach(i => {
 
 ipcSend({ action: "init" });
 tab("path");
+ipcSend({ action: "check-for-updates", return: "notif" });

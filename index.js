@@ -95,7 +95,7 @@ app.on("ready", () => {
 	
 	w_main.loadFile("main.html");
 	
-	w_main.setMenu(null);
+	//w_main.setMenu(null);
 	
 	w_main.on("closed", () => {
 		app.quit();
@@ -238,6 +238,13 @@ ipc.on("app", (event, arg) => {
 				res.on('end', () => {
 					try {
 						const parsedData = JSON.parse(rawData);
+						if (arg.changelog){
+							dat = "";
+							parsedData.body.split("\n").forEach(i => i.startsWith("!") ? dat = dat : dat += i + "\n" );
+							console.log(dat);
+							dialog.showMessageBoxSync({ type: "info", title: `Changelog ${parsedData.tag_name}`, message: `${dat}` });
+							return true;
+						}
 						let app_v = require('./package.json').version;
 						let new_v = parsedData.tag_name.replace("v","");
 						if (new_v === app_v){
@@ -245,15 +252,23 @@ ipc.on("app", (event, arg) => {
 							console.log("Up to date!");
 						}else{
 							if (Number(new_v.replace(/\./g,"")) > Number(app_v.replace(/\./g,""))){
-								w_main.webContents.send("app", `{ 
-									"action": "loading", 
-									"a": "warning", 
-									"lgt": "infinite", 
-									"text": "New version found (v${new_v})", 
-									"button": [
-										{ "text": "Get update", "action": "openLink('https://github.com/HJfod/gd-backup/releases/latest')" } 
-									]
-								}`);
+								if (arg.return){
+									w_main.webContents.send("app", `{
+										"action": "notification",
+										"place": ["#nav-sett p","#aboutSection","h5[onclick='checkUpdate()']"],
+										"id": "notif-update"
+									}`);
+								}else{
+									w_main.webContents.send("app", `{ 
+										"action": "loading", 
+										"a": "warning", 
+										"lgt": "infinite", 
+										"text": "New version found (v${new_v})", 
+										"button": [
+											{ "text": "Get update", "action": "openLink('https://github.com/HJfod/gd-backup/releases/latest')" } 
+										]
+									}`);
+								}
 							}else{
 								w_main.webContents.send("app", `{ 
 									"action": "loading", 

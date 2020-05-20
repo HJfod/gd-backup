@@ -94,9 +94,11 @@ function showMsg(type, lgt, txt, button) {
     loading.style.display = "initial";
     loading.querySelector(".loading-text").innerHTML = txt;
 	if (lgt === "normal"){
-		setTimeout(() => { loading.style.display = "none"; }, loading_time);
+		splashTimeOut = setTimeout(() => { loading.style.display = "none"; }, loading_time);
 	}else if (lgt === "long"){
-		setTimeout(() => { loading.style.display = "none"; }, loading_time * 3);
+		splashTimeOut = setTimeout(() => { loading.style.display = "none"; }, loading_time * 3);
+	}else if (lgt === "infinite"){
+		clearTimeout(splashTimeOut);
 	}
 }
 
