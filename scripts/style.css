@@ -215,11 +215,15 @@ main-content {
 	width: calc( 100% - var(--pad) * 2 );
 	top: 0px;
 	left: 0px;
-	height: calc( 100% - var(--n-size) );
+	height: calc( 100% - var(--pad) * 2 );
 	position: absolute;
 	overflow-x: hidden;
 	overflow-y: auto;
 	margin: var(--pad);
+}
+
+.shortened-main {
+	height: calc( 100% - var(--n-size) - var(--pad) * 2 );
 }
 
 .section {
@@ -432,16 +436,24 @@ emp-text {
 	width: calc(var(--pad) * 2);
 	height: calc(var(--pad) * 2);
 	transition-duration: var(--trans);
+	border-left: calc( var(--pad) / 4) solid var(--c-bg);
+	border-right: calc( var(--pad) / 4) solid var(--c-bg);
 }
 
 ::-webkit-scrollbar-track {
-	background: var(--c-dark);
+	background: var(--c-select);
 	transition-duration: var(--trans);
+	width: var(--pad);
+	height: var(--pad);
+	border-left: calc( var(--pad) / 4) solid var(--c-bg);
+	border-right: calc( var(--pad) / 4) solid var(--c-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--c-select);
+	background: var(--c-dark);
 	transition-duration: var(--trans);
+	border-left: calc( var(--pad) / 4) solid var(--c-bg);
+	border-right: calc( var(--pad) / 4) solid var(--c-bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {

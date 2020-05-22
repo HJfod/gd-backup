@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<main-content id="main">
+<main-content id="main" class="shortened-main">
 	
 	<div data-id="path">
 		
@@ -185,18 +185,16 @@
 			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCqTA6JFpt6l4y0gz72AQswA')">HJfod</text><text style="opacity:.5">     Developer</text><br>
 			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCFDsxSlQXpLLpVScy2NmbcQ')">GDColon</text><text style="opacity:.5">     Developer</text><br>
 			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCVs0uwKdPbIv0VjMvZAYM4Q')">Mercury</text><text style="opacity:.5">     Designer</text><br>
-			<text> • </text><text>Simonoson</text><text style="opacity:.5">     Idea</text><br>
-
+			<text> • </text><text class="link" onclick="openLink('https://twitter.com/simonoson')">Simonoson</text><text style="opacity:.5">     Idea</text><br>
 			<h3>Special thanks:</h3>
 			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCTH5HiONyom4GseT2xbw-TQ')">Kyuuti</text><text style="opacity:.5">     Artist</text><br>
 			<text> • </text><text class="link" onclick="openLink('https://www.youtube.com/channel/UCwEsWDs9kGN2vvoiNTJKdaQ')">SMJS</text><text style="opacity:.5">     GD Level Data parsing</text><br>
-			
-			<br>
 
-			<text class="link" onclick="openLink('https://github.com/HJfod/gd-backup')">Github page</text>
-			<br><br>
+			<br>
 			<div class="divider"></div>
-			<h5 id="version-number">Version: Beta NUMBER-HERE   </h5><h5 class="link" onclick="checkUpdate()">Check for updates</h5>
+			<h5 id="version-number">Version: NUMBER-HERE   </h5>
+			<h5 class="link" onclick="openLink('https://github.com/HJfod/gd-backup')">Github page</h5>
+			<h5 class="link" onclick="checkUpdate()">Check for updates</h5>
 			<h5 class="link" onclick='ipcSend({ action: "check-for-updates", changelog: true })'>Changelog</h5>
 			
 		</div>
