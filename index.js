@@ -15,7 +15,6 @@ let w_sett = null;
 let gd_path;
 
 let levels = []
-let saveData;
 let export_path;
 let ext = "udat";
 let thext = "gdbt";
@@ -305,11 +304,11 @@ function saveToUserdata(key, val) {
 	fs.writeFileSync(path.join(__dirname,dLoop,"/data/userdata." + ext), JSON.stringify(o));
 }
 
-function refreshDataFolder() {
+function refreshDataFolder(pth) {
 	w_main.webContents.send("app", `{ "action": "clear-data-folder" }`);
 	w_main.webContents.send("app", `{ "action": "loading", "a": "show", "text": "Loading your backup data..." }`);
 
-	fs.readdirSync(path.join(gd_path + '/..'), { withFileTypes: true }).forEach(i => {
+	fs.readdirSync(path.join(pth + '/..'), { withFileTypes: true }).forEach(i => {
 		if (i.name.startsWith("GDSHARE")){
 			w_main.webContents.send("app", `{ "action": "data-file", "name": "${i.name}", "type": "${i.isFile() ? "file" : "dir"}" }`);
 		}
@@ -500,14 +499,25 @@ function createDefaultThemes(dir) {
 	console.log("Made default themes");
 }
 
-function validateGDPath() {
-	w_main.webContents.send("app", `{ "action": "loading", "a": "show", "text": "Loading your GD data..." }`);
+function getLevels(data) {			// requires decoded save data, returns an array of all the levels
+	let out = [];
+	let levelList = data.match(/<k>k_\d+<\/k>.+?<\/d>\n? *<\/d>/gs)
+	levelList.forEach(lvl => {
+		out.push(lvl);
+	});
+	return out;
+}
+
+function validateDataFile(path) {		// requires path to data file, returns decoded save data
+	w_main.webContents.send("app", `{ "action": "loading", "a": "show", "text": "Loading GD data..." }`);
+
+	let saveData;
 	try {
-		saveData = fs.readFileSync(gd_path, "utf8");
+		saveData = fs.readFileSync(path, "utf8");
 	} catch (err) {
 		console.log(err);
 		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "${err}" }`);
-		return;
+		return false;
 	}
 	
 	if (!saveData.startsWith('<?xml version="1.0"?>')) {
@@ -518,17 +528,23 @@ function validateGDPath() {
 		catch (e) {
 			w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "${e}" }`);
 			console.log("Error! GD save file seems to be corrupt!") 
-			return;
+			return false;
 		}
 	}
 	
+	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Data loaded!" }`);
 	console.log("Save data decoded!");
 
-	refreshDataFolder();
-	
-	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Save data loaded!" }`);
+	return saveData;
+}
 
-	saveToUserdata("gdpath",gd_path);
+function validateGDPath() {
+	
+	validateDataFile(gd_path);
+
+	refreshDataFolder(gd_path);
+
+	saveToUserdata("gdpath", gd_path);
 	
 	w_main.webContents.send("app", `{ "action": "gd-path-confirmed" }`);
 	
@@ -690,11 +706,3 @@ function importLevel(path) {
 	console.log(`Successfully added ${levelName[1]} to save file!`);
 	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "long", "text": "Succesfully imported ${levelName[1]}!" }`);
 }
-
-/*
-	
-	TODO:
-	
-	-Refresh save file
-	
-*/
