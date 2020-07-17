@@ -6,23 +6,18 @@ const zlib = require("zlib");
 const exec = require('child_process').exec;
 const rimraf = require("rimraf");
 
-// require(path.join(__dirname,"scripts/save.js"));
+const GDShare = require("app-functions.js");
+const GDShareMain = require("app-main.js");
+
+GDShareMain.event.on("error", err => {
+	
+});
 
 const dim = { w: 400, h: 550 };
 
 let w_main;
 let w_sett = null;
 let gd_path;
-
-let levels = []
-let export_path;
-let ext = "udat";
-let thext = "gdbt";
-let themeList = [];
-let dateFormat = false;
-let includedBackupDirs = [];
-let settSection = "";
-let settTheme = "";
 
 const windowSett = {
 	frame: true, 
@@ -35,30 +30,6 @@ const windowSett = {
 		enableRemoteModule: false, 
 		contextIsolation: true
 	} 
-}
-
-let dLoop = "";
-dTesting: for (let i = 0; i < 5; i++) {
-	try {
-		fs.accessSync(path.join(__dirname + dLoop + "/resources"));
-	} catch (err) {
-		dLoop += "/..";
-		continue dTesting;
-	}
-}
-
-const isRunning = (query, cb) => {
-    let platform = process.platform;
-    let cmd = '';
-    switch (platform) {
-        case 'win32' : cmd = `tasklist`; break;
-        case 'darwin' : cmd = `ps -ax | grep ${query}`; break;
-        case 'linux' : cmd = `ps -A`; break;
-        default: break;
-    }
-    exec(cmd, (err, stdout, stderr) => {
-        cb(stdout.toLowerCase().indexOf(query.toLowerCase()) > -1);
-    });
 }
 
 let required_dir = [
@@ -497,212 +468,4 @@ function createDefaultThemes(dir) {
 		fs.writeFileSync(`${dir}\\${themes[i].name.toLowerCase()}.${thext}`, JSON.stringify(themes[i]));
 	}
 	console.log("Made default themes");
-}
-
-function getLevels(data) {			// requires decoded save data, returns an array of all the levels
-	let out = [];
-	let levelList = data.match(/<k>k_\d+<\/k>.+?<\/d>\n? *<\/d>/gs)
-	levelList.forEach(lvl => {
-		out.push(lvl);
-	});
-	return out;
-}
-
-function validateDataFile(path) {		// requires path to data file, returns decoded save data
-	w_main.webContents.send("app", `{ "action": "loading", "a": "show", "text": "Loading GD data..." }`);
-
-	let saveData;
-	try {
-		saveData = fs.readFileSync(path, "utf8");
-	} catch (err) {
-		console.log(err);
-		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "${err}" }`);
-		return false;
-	}
-	
-	if (!saveData.startsWith('<?xml version="1.0"?>')) {
-		console.log("Decoding save data...")
-		saveData = xor(saveData, 11)
-		saveData = Buffer.from(saveData, 'base64')
-		try { saveData = zlib.unzipSync(saveData).toString() }
-		catch (e) {
-			w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "${e}" }`);
-			console.log("Error! GD save file seems to be corrupt!") 
-			return false;
-		}
-	}
-	
-	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "normal", "text": "Data loaded!" }`);
-	console.log("Save data decoded!");
-
-	return saveData;
-}
-
-function validateGDPath() {
-	
-	validateDataFile(gd_path);
-
-	refreshDataFolder(gd_path);
-
-	saveToUserdata("gdpath", gd_path);
-	
-	w_main.webContents.send("app", `{ "action": "gd-path-confirmed" }`);
-	
-	levels = [];
-	let levelList = saveData.match(/<k>k_\d+<\/k>.+?<\/d>\n? *<\/d>/gs)
-	if (levelList) {
-		levelList.forEach(lvl => {
-			levels.push(lvl)
-		});
-		
-		let levelNameList = [];
-		levels.forEach((lvl) => {
-			n = lvl.split(`<k>k2</k><s>`).pop();
-			n = n.substring(0,n.indexOf("<")).replace(/'/g,'"');
-			let c = 1;
-			while (levelNameList.includes(n)){
-				n = n.substring(0,(c === 1) ? n.length : n.length-3-c.toString().length) + " (" + c + ")";
-				c++;
-				if (c > 20){
-					break;
-				}
-			}
-			levelNameList.push(n);
-		});
-		w_main.webContents.send("app", `{ "action": "level-list", "list": "${levelNameList}" }`);
-	}
-}
-
-function getValue(lvl, key, type) {
-	if (type === null){
-		return lvl.split(`<k>${key}</k>`).pop().substring(0,100);
-	}
-	if (type){
-		return lvl.split(`<k>${key}</k><${type}>`).pop().substring(0,lvl.split(`<k>${key}</k><${type}>`).pop().indexOf('<'));
-	}else{
-		return lvl.split(`<k>${key}</k>`).pop().substring(0,lvl.split(`<k>${key}</k>`).pop().indexOf('>')).includes("t");
-	}
-}
-
-function base64(base64String) {
-	return Buffer.from(base64String.replace(/-/g, "+").replace(/_/g, "/"), "base64");
-}
-
-function replaceOfficialSong(i) {
-	let s = {
-		0: 'Stereo Madness',
-		1: 'Back on Track',
-		2: 'Polargeist',
-		3: 'Dry Out',
-		4: 'Base After Base',
-		5: 'Cant Let Go',
-		6: 'Jumper',
-		7: 'Time Machine',
-		8: 'Cycles',
-		9: 'xStep',
-		10:'Clutterfunk',
-		11:'Theory of Everything',
-		12:'Electroman Adventures',
-		13:'Clubstep',
-		14:'Electrodynamix',
-		15:'Hexagon Force',
-		16:'Blast Processing',
-		17:'Theory of Everything 2',
-		18:'Geometrical Dominator',
-		19:'Deadlocked',
-		20:'Fingerdash'
-	}
-	return s[i];
-}
-
-function getLevelInfo(name) {
-	let foundLevel;
-	if (name.indexOf("/") === -1){
-		name = name.toLowerCase();
-		if (name.endsWith(")")) name = name.substring(0,name.length-4);
-		foundLevel = levels.find(x => x.toLowerCase().includes(`<k>k2</k><s>${name}</s>`));
-	}else{
-		try { fs.accessSync(name) } catch(err) {
-			w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Unable to view info: ${err}" }`);
-			console.log(err);
-			return;
-		}
-		foundLevel = fs.readFileSync(name, 'utf8');
-	}
-	if (!foundLevel){
-		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Something went wrong (level does not exist?)" }`);
-		console.log("Could not find level!");
-		return;
-	}else{
-		let time = getValue(foundLevel, "k80", "i");
-		let p = getValue(foundLevel, "k41", "i");
-		let desc = base64(getValue(foundLevel, "k3", "s")).toString("utf8");
-		let levelInfo = {
-			name: { text: "Name", val: getValue(foundLevel, "k2", "s") },
-			length: { text: "Length", val: getValue(foundLevel, "k23", "i").replace(/^\s*$/,"Tiny").replace("1","Short").replace("2","Medium").replace("3","Long").replace("4","XL") },
-			creator: { text: "Creator", val: getValue(foundLevel, "k5", "s") },
-			version: { text: "Version", val: getValue(foundLevel, "k16", "i") },
-			password: { text: "Password", val: (p === "1") ? "Free to copy" : (p === "") ? "No copy" : p.substring(1) },
-			songID: { text: "Song", val: getValue(foundLevel, "k8", "i") ? replaceOfficialSong(getValue(foundLevel, "k8", "i")) : getValue(foundLevel, "k45", "i") },
-			description: { text: "Description", val: (desc === "") ? false : desc },
-			objectCount: { text: "Object count", val: getValue(foundLevel, "k48", "i") },
-			editorTime: { text: "Editor time", val: (time > 3600) ? (time/3600).toFixed(1) + "h" : (time/60).toFixed(1) + "m" },
-			verified: { text: "Verified", val: getValue(foundLevel, "k14", false) },
-			attempts: { text: "Attempts", val: getValue(foundLevel, "k18", "i") },
-			rev: { text: "Revision", val: (getValue(foundLevel, "k46", "i") === "") ? "None" : getValue(foundLevel, "k46", "i") },
-			copiedID: { text: "Copied from", val: (getValue(foundLevel, "k42", "i") === "") ? "None" : getValue(foundLevel, "k42", "i") }
-		};
-		w_main.webContents.send("app", `{ "action": "analyzed-level-info", "info": ${JSON.stringify(levelInfo)} }`)
-	}
-}
-
-function getLevel(names) {
-	names.forEach(name => {
-		name = name.toLowerCase();
-		let foundLevel = levels.find(x => x.toLowerCase().includes(`<k>k2</k><s>${name}</s>`));
-		if (!foundLevel){
-			w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Level does not exist." }`);
-			console.log("Could not find level!");
-			return;
-		}else{
-			let outputdir = export_path ? `${export_path}/${name}.gmd` : path.join(__dirname,dLoop,`levels/${name}.gmd`);		// export path
-			let n = 0;
-			while (fs.existsSync(outputdir)) {	// check if level with same name exists
-				outputdir = outputdir.substring(0,outputdir.length - name.length - 4 - (n ? n.toString().length : 0)) + name + n + ".gmd";
-				n++;
-				if (n > 20) return w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "Too many levels with this name." }`);
-			}
-			fs.writeFileSync(outputdir, foundLevel.replace(/<k>k_\d+<\/k>/, ""), 'utf8');
-			
-			let msg = "";
-			if (names.length > 1){
-				msg = "all levels"
-			}else{
-				msg = export_path ? `${export_path}/${name}.gmd` : `to levels/${name}.gmd`;
-			}
-			w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "long", "text": "Succesfully exported ${msg}!" }`);
-			console.log(`Saved to ${msg}!`);
-			return;
-		}
-	});
-}
-
-function importLevel(path) {
-	try { fs.accessSync(path) } catch(err) {
-		w_main.webContents.send("app", `{ "action": "loading", "a": "error", "lgt": "long", "text": "${err}" }`);
-		console.log("Could not open this file!");
-		return;
-	}
-	let levelFile = fs.readFileSync(path, 'utf8')
-	let levelName = levelFile.match(/<k>k2<\/k><s>(.+?)<\/s>/)
-	
-	saveData = saveData.replace(/<k>k1<\/k><i>\d+?<\/i>/g,"");	// remove uploaded id
-	saveData = saveData.split("<k>_isArr</k><t />")
-	saveData[1] = saveData[1].replace(/<k>k_(\d+)<\/k><d><k>kCEK<\/k>/g, (n) => { return "<k>k_" + (Number(n.slice(5).split("<")[0])+1) + "</k><d><k>kCEK</k>" })
-	saveData = saveData[0] + "<k>_isArr</k><t /><k>k_0</k>" + levelFile + saveData[1]
-	
-	fs.writeFileSync(gd_path, saveData, 'utf8')
-	
-	console.log(`Successfully added ${levelName[1]} to save file!`);
-	w_main.webContents.send("app", `{ "action": "loading", "a": "success", "lgt": "long", "text": "Succesfully imported ${levelName[1]}!" }`);
 }
