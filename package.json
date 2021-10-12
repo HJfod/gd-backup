@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/HJfod/gd-backup#readme",
   "dependencies": {
-    "electron": "^8.2.5",
+    "electron": "^11.5.0",
     "rimraf": "^3.0.2"
   },
   "devDependencies": {
